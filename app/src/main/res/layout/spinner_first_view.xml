@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:textSize="24sp"
+    android:textAlignment="center"
+    android:background="@drawable/spinner_first_view_background"
+    android:paddingBottom="5dp"
+    android:paddingTop="5dp"
+    android:paddingEnd="10dp"
+    android:textColor="@color/black"
+    android:drawableEnd="@drawable/ic_baseline_arrow_drop_down_circle_24"
+    android:drawablePadding="-24dp"
+    tools:text="testing" />
+
+
+
+
+

@@ -14,8 +14,10 @@ import com.example.helloworldapp.healthtracker.database.bloodPressure.BloodPress
 import com.example.helloworldapp.healthtracker.database.bloodPressure.BloodPressureDatabase
 import com.example.helloworldapp.healthtracker.database.bloodPressure.BloodPressureDatabaseDao
 import com.example.helloworldapp.healthtracker.database.glucose.Glucose
+import com.example.helloworldapp.healthtracker.database.glucose.GlucoseDatabase
 import com.example.helloworldapp.healthtracker.database.glucose.GlucoseDatabaseDao
 import com.example.helloworldapp.healthtracker.database.heightWeight.HeightWeight
+import com.example.helloworldapp.healthtracker.database.heightWeight.HeightWeightDatabase
 import com.example.helloworldapp.healthtracker.database.heightWeight.HeightWeightDatabaseDao
 import com.example.helloworldapp.healthtracker.databinding.FragmentAddPersonBinding
 import kotlinx.coroutines.Dispatchers
@@ -38,6 +40,8 @@ class AddPersonFragment : Fragment() {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_add_person, container, false)
 
         bloodPressureDataSource = BloodPressureDatabase.getInstance(requireActivity().application).bloodPressureDatabaseDao
+        glucoseDataSource = GlucoseDatabase.getInstance(requireActivity().application).glucoseDatabaseDao
+        heightWeightDataSource = HeightWeightDatabase.getInstance(requireActivity().application).heightWeightDatabaseDao
 
         /**
          * Inserts a placeholder row of data to represent the person that has just been added,

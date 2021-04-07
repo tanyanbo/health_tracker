@@ -58,7 +58,7 @@ class MainActivity : AppCompatActivity() {
 
         lifecycleScope.launch {
             withContext(Dispatchers.IO) {
-            viewModel.deferredPersonList.await()
+                viewModel.deferredPersonList.await()
             }
 
             // checks to see if there is data in the database, if there isn't any data,
@@ -77,7 +77,6 @@ class MainActivity : AppCompatActivity() {
          * at the choose person fragment, the app will navigate to the add person fragment.
          */
         binding.fab.setOnClickListener {
-
             when (binding.bottomNavBar.selectedItemId) {
                 R.id.person -> {
                     supportFragmentManager.beginTransaction().apply {
@@ -87,6 +86,7 @@ class MainActivity : AppCompatActivity() {
                         commit()
                     }
                 }
+
                 else -> {
                     supportFragmentManager.beginTransaction().apply {
                         setCustomAnimations(R.anim.scale, R.anim.scale_exit)
