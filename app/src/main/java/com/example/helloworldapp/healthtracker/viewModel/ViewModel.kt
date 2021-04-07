@@ -17,10 +17,11 @@ class ViewModel(application: Application): AndroidViewModel(application) {
 
      val bloodPressureDataSource = BloodPressureDatabase.getInstance(application).bloodPressureDatabaseDao
 
-    var personList: List<String> = listOf("abc", "def", "ghi")
+    private val _personList = MutableLiveData<List<String>>()
+    val personList: LiveData<List<String>> get() = _personList
 
     var deferredPersonList: Deferred<Unit> = viewModelScope.async(Dispatchers.IO) {
-        personList = bloodPressureDataSource.getAllPersonId()
+        _personList.value = bloodPressureDataSource.getAllPersonId()
     }
 
 
