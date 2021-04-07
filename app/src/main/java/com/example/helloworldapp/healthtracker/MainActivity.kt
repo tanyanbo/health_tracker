@@ -8,6 +8,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import com.example.helloworldapp.healthtracker.addData.AddDataFragment
 import com.example.helloworldapp.healthtracker.addPerson.AddPersonFragment
 import com.example.helloworldapp.healthtracker.bloodPressure.BloodPressureFragment
@@ -15,6 +16,9 @@ import com.example.helloworldapp.healthtracker.choosePerson.ChoosePersonFragment
 import com.example.helloworldapp.healthtracker.databinding.ActivityMainBinding
 import com.example.helloworldapp.healthtracker.glucose.GlucoseFragment
 import com.example.helloworldapp.healthtracker.heightWeight.HeightWeightFragment
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class MainActivity : AppCompatActivity() {
 
@@ -26,6 +30,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var addDataFragment: AddDataFragment
     private lateinit var choosePersonFragment: ChoosePersonFragment
 
+    val TAG = "MainActivity"
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -44,7 +49,27 @@ class MainActivity : AppCompatActivity() {
 
         navigateToFragment(bloodPressureFragment)
 
-        val viewModel = ViewModelProvider(this).get(com.example.helloworldapp.healthtracker.viewModel.ViewModel::class.java)
+        val viewModelFactory =
+            com.example.helloworldapp.healthtracker.viewModel.ViewModel.Factory(this.application)
+        val viewModel = ViewModelProvider(
+            this,
+            viewModelFactory
+        ).get(com.example.helloworldapp.healthtracker.viewModel.ViewModel::class.java)
+
+        lifecycleScope.launch {
+            withContext(Dispatchers.IO) {
+            viewModel.deferredPersonList.await()
+            }
+
+            // checks to see if there is data in the database, if there isn't any data,
+            // then navigate to the add person screen
+            if (viewModel.personList.isEmpty()) {
+                navigateToFragment(addPersonFragment)
+            }
+        }
+
+
+
 
         /**
          * Includes the animation logic for opening the add data fragment, if the user clicks on the fab
@@ -54,7 +79,7 @@ class MainActivity : AppCompatActivity() {
         binding.fab.setOnClickListener {
 
             when (binding.bottomNavBar.selectedItemId) {
-                R.id.person ->{
+                R.id.person -> {
                     supportFragmentManager.beginTransaction().apply {
                         setCustomAnimations(R.anim.scale, R.anim.scale_exit)
                         replace(R.id.frameLayout, addPersonFragment)
@@ -94,14 +119,13 @@ class MainActivity : AppCompatActivity() {
                     navigateToFragment(heightWeightFragment)
                     viewModel.updatePreviousFragment(it.itemId)
                 }
-                R.id.person-> {
+                R.id.person -> {
                     navigateToFragment(choosePersonFragment)
                     viewModel.updatePreviousFragment(it.itemId)
                 }
             }
             return@setOnNavigationItemSelectedListener true
         }
-
     }
 
     /**
@@ -116,3 +140,4 @@ class MainActivity : AppCompatActivity() {
         }
     }
 }
+

@@ -73,8 +73,8 @@ class AddDataFragment : Fragment(), DatePickerDialog.OnDateSetListener, TimePick
             pickDate()
         }
 
-
-        val viewModel = ViewModelProvider(requireActivity()).get(ViewModel::class.java)
+        val viewModelFactory = ViewModel.Factory(requireActivity().application)
+        val viewModel = ViewModelProvider(requireActivity(), viewModelFactory).get(ViewModel::class.java)
 
         /**
          * This is deciding how to draw the edit text boxes, for example it will draw only

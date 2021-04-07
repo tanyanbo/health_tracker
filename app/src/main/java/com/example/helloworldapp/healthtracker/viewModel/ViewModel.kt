@@ -1,15 +1,27 @@
 package com.example.helloworldapp.healthtracker.viewModel
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
+import android.app.Application
+import androidx.lifecycle.*
 import androidx.lifecycle.ViewModel
 import com.example.helloworldapp.healthtracker.R
+import com.example.helloworldapp.healthtracker.database.bloodPressure.BloodPressureDatabase
+import kotlinx.coroutines.Deferred
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
 
-class ViewModel: ViewModel() {
+class ViewModel(application: Application): AndroidViewModel(application) {
 
     private val _previousFragment = MutableLiveData<Int>()
     val previousFragment: LiveData<Int>
         get() = _previousFragment
+
+     val bloodPressureDataSource = BloodPressureDatabase.getInstance(application).bloodPressureDatabaseDao
+
+    var personList: List<String> = listOf("abc", "def", "ghi")
+
+    var deferredPersonList: Deferred<Unit> = viewModelScope.async(Dispatchers.IO) {
+        personList = bloodPressureDataSource.getAllPersonId()
+    }
 
 
     /**
@@ -24,6 +36,16 @@ class ViewModel: ViewModel() {
             R.id.glucose -> _previousFragment.value = 3
             R.id.person -> _previousFragment.value = 4
             else -> _previousFragment.value = 0
+        }
+    }
+
+    class Factory(val app: Application) : ViewModelProvider.Factory {
+        override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+            if (modelClass.isAssignableFrom(com.example.helloworldapp.healthtracker.viewModel.ViewModel::class.java)) {
+                @Suppress("UNCHECKED_CAST")
+                return ViewModel(app) as T
+            }
+            throw IllegalArgumentException("Unable to construct viewmodel")
         }
     }
 }
