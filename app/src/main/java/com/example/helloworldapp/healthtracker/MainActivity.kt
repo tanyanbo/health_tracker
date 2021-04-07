@@ -2,14 +2,19 @@ package com.example.helloworldapp.healthtracker
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
+import android.widget.EditText
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
+import com.example.helloworldapp.healthtracker.addData.AddDataFragment
 import com.example.helloworldapp.healthtracker.addPerson.AddPersonFragment
 import com.example.helloworldapp.healthtracker.bloodPressure.BloodPressureFragment
+import com.example.helloworldapp.healthtracker.choosePerson.ChoosePersonFragment
 import com.example.helloworldapp.healthtracker.databinding.ActivityMainBinding
 import com.example.helloworldapp.healthtracker.glucose.GlucoseFragment
 import com.example.helloworldapp.healthtracker.heightWeight.HeightWeightFragment
-import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity() {
 
@@ -19,6 +24,9 @@ class MainActivity : AppCompatActivity() {
     private lateinit var heightWeightFragment: HeightWeightFragment
     private lateinit var addPersonFragment: AddPersonFragment
     private lateinit var addDataFragment: AddDataFragment
+    private lateinit var choosePersonFragment: ChoosePersonFragment
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -32,27 +40,64 @@ class MainActivity : AppCompatActivity() {
         heightWeightFragment = HeightWeightFragment()
         addPersonFragment = AddPersonFragment()
         addDataFragment = AddDataFragment()
+        choosePersonFragment = ChoosePersonFragment()
 
         navigateToFragment(bloodPressureFragment)
 
-        binding.fab.setOnClickListener {
-//            supportFragmentManager.beginTransaction().apply {
-//                replace(R.id.frameLayout, addDataFragment)
-//                setCustomAnimations(R.anim.scale, R.anim.scale_exit)
-//                addToBackStack(null)
-//                commit()
-//            }
+        val viewModel = ViewModelProvider(this).get(com.example.helloworldapp.healthtracker.viewModel.ViewModel::class.java)
 
-            supportFragmentManager.beginTransaction().setCustomAnimations(R.anim.scale, R.anim.scale_exit)
-                .replace(R.id.frameLayout, addDataFragment).addToBackStack(null).commit()
+        /**
+         * Includes the animation logic for opening the add data fragment, if the user clicks on the fab
+         * when he is at the first 3 fragments, the app will navigate to the add data fragment, if he is
+         * at the choose person fragment, the app will navigate to the add person fragment.
+         */
+        binding.fab.setOnClickListener {
+
+            when (binding.bottomNavBar.selectedItemId) {
+                R.id.person ->{
+                    supportFragmentManager.beginTransaction().apply {
+                        setCustomAnimations(R.anim.scale, R.anim.scale_exit)
+                        replace(R.id.frameLayout, addPersonFragment)
+                        addToBackStack(null)
+                        commit()
+                    }
+                }
+                else -> {
+                    supportFragmentManager.beginTransaction().apply {
+                        setCustomAnimations(R.anim.scale, R.anim.scale_exit)
+                        replace(R.id.frameLayout, addDataFragment)
+                        addToBackStack(null)
+                        commit()
+                    }
+                }
+            }
         }
 
+
+        /**
+         * navigates to other fragments on click of the bottom navigation bar,
+         * also updates the previous fragment value in the view model so that
+         * if the user clicks on the floating action bar the add data fragment
+         * will know to draw the correct layout.
+         */
         binding.bottomNavBar.setOnNavigationItemSelectedListener {
             when (it.itemId) {
-                R.id.glucose -> navigateToFragment(glucoseFragment)
-                R.id.bloodPressure -> navigateToFragment(bloodPressureFragment)
-                R.id.heightWeight -> navigateToFragment(heightWeightFragment)
-                R.id.person-> navigateToFragment(addPersonFragment)
+                R.id.glucose -> {
+                    navigateToFragment(glucoseFragment)
+                    viewModel.updatePreviousFragment(it.itemId)
+                }
+                R.id.bloodPressure -> {
+                    navigateToFragment(bloodPressureFragment)
+                    viewModel.updatePreviousFragment(it.itemId)
+                }
+                R.id.heightWeight -> {
+                    navigateToFragment(heightWeightFragment)
+                    viewModel.updatePreviousFragment(it.itemId)
+                }
+                R.id.person-> {
+                    navigateToFragment(choosePersonFragment)
+                    viewModel.updatePreviousFragment(it.itemId)
+                }
             }
             return@setOnNavigationItemSelectedListener true
         }

@@ -4,6 +4,9 @@
     <string name="enter_high_blood_pressure">输入高压</string>
     <string name="enter_low_blood_pressure">输入低压</string>
     <string name="enter_heart_rate">输入心率</string>
+    <string name="enter_glucose">输入血糖</string>
+    <string name="enter_height">输入身高</string>
+    <string name="enter_weight">输入体重</string>
     <string name="blood_pressure_recorder">血压记录器</string>
     <string name="enter_date">输入日期</string>
     <string name="save_data">储存</string>

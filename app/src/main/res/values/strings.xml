@@ -2,6 +2,9 @@
     <string name="app_name">Health Tracker</string>
     <string name="enter_high_blood_pressure">Enter High Blood Pressure</string>
     <string name="enter_low_blood_pressure">Enter Low Blood Pressure</string>
+    <string name="enter_glucose">Enter Glucose</string>
+    <string name="enter_height">Enter Height</string>
+    <string name="enter_weight">Enter Weight</string>
     <string name="enter_heart_rate">Enter Heart Rate</string>
     <string name="blood_pressure_recorder">Blood Pressure Recorder</string>
     <string name="enter_date">Enter date</string>
