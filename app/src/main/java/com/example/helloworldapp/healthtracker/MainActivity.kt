@@ -6,6 +6,7 @@ import android.util.Log
 import android.widget.EditText
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -29,6 +30,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var addPersonFragment: AddPersonFragment
     private lateinit var addDataFragment: AddDataFragment
     private lateinit var choosePersonFragment: ChoosePersonFragment
+    private lateinit var personLst: List<String>
 
     val TAG = "MainActivity"
 
@@ -56,17 +58,21 @@ class MainActivity : AppCompatActivity() {
             viewModelFactory
         ).get(com.example.helloworldapp.healthtracker.viewModel.ViewModel::class.java)
 
-        lifecycleScope.launch {
-            withContext(Dispatchers.IO) {
-                viewModel.deferredPersonList.await()
-            }
+//        viewModel.personList.observe(this, Observer {
+//            personLst = it
+//        })
+
+//        lifecycleScope.launch {
+//            withContext(Dispatchers.IO) {
+//                viewModel.deferredPersonList.await()
+//            }
 
             // checks to see if there is data in the database, if there isn't any data,
             // then navigate to the add person screen
-            if (viewModel.personList.isEmpty()) {
-                navigateToFragment(addPersonFragment)
-            }
-        }
+//            if (personLst.isEmpty()) {
+//                navigateToFragment(addPersonFragment)
+//            }
+//        }
 
 
 
