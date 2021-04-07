@@ -1,51 +1,51 @@
-package com.example.helloworldapp.healthtracker.database.heightWeight
+package com.example.helloworldapp.healthtracker.database.glucose
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.example.helloworldapp.healthtracker.database.bloodPressure.BloodPressure
 
 @Dao
-interface HeightWeightDao {
+interface GlucoseDatabaseDao {
     /**
      * Add a new row of blood pressure data to the database
      */
     @Insert
-    fun insert(heightWeightData: HeightWeight)
+    fun insert(glucoseData: Glucose)
 
     /**
      *  Delete a row
-     *  @param heightWeightData data to delete
+     *  @param glucoseData data to delete
      */
     @Delete
-    fun delete(heightWeightData: HeightWeight)
+    fun delete(glucoseData: Glucose)
 
     /**
      *  Update a row
-     *  @param heightWeightData data to update
+     *  @param glucoseData data to update
      */
     @Update
-    fun update(heightWeightData: HeightWeight)
+    fun update(glucoseData: Glucose)
 
     /**
      * Delete all rows
      */
-    @Query("DELETE FROM height_weight_database")
+    @Query("DELETE FROM glucose_database")
     fun deleteAll()
 
 
-    @Query("SELECT * from height_weight_database WHERE id = :key")
-    fun get(key: Long): HeightWeight
+    @Query("SELECT * from glucose_database WHERE id = :key")
+    fun get(key: Long): Glucose
 
     /**
      * Get all the data, no longer useful after adding multiple people
      */
-    @Query("SELECT * FROM height_weight_database")
-    fun getAll(): LiveData<List<HeightWeight>>
+    @Query("SELECT * FROM glucose_database")
+    fun getAll(): LiveData<List<Glucose>>
 
     /**
      * Get the list of people to show in the person chooser spinner.
      */
-    @Query("SELECT DISTINCT person_id FROM height_weight_database")
+    @Query("SELECT DISTINCT person_id FROM glucose_database")
     fun getAllPersonId(): List<String>
 
     /**
@@ -54,29 +54,29 @@ interface HeightWeightDao {
      * in the show data fragment
      * @param personId The person to get all the data
      */
-    @Query("SELECT * FROM height_weight_database WHERE person_id = :personId ORDER BY id DESC LIMIT (SELECT COUNT(id) FROM height_weight_database WHERE person_id = :personId) - 1")
-    fun getAllForPerson(personId: String): LiveData<List<HeightWeight>>
+    @Query("SELECT * FROM glucose_database WHERE person_id = :personId ORDER BY id DESC LIMIT (SELECT COUNT(id) FROM glucose_database WHERE person_id = :personId) - 1")
+    fun getAllForPerson(personId: String): LiveData<List<Glucose>>
 
     /**
      * Gets the data for one person and sort it descending by data. isShown refers to
      * whether or not the row is only a placeholder
      * @param personId the personId value of the person whose data is going to be shown
      */
-    @Query("SELECT * FROM height_weight_database WHERE person_id = :personId AND isShown = 1 ORDER BY Time DESC")
-    fun getAllForPersonSortDateDesc(personId: String): LiveData<List<HeightWeight>>
+    @Query("SELECT * FROM glucose_database WHERE person_id = :personId AND isShown = 1 ORDER BY Time DESC")
+    fun getAllForPersonSortDateDesc(personId: String): LiveData<List<Glucose>>
 
     /**
      * Gets the data for one person and sort it ascending by data. isShown refers to
      * whether or not the row is only a placeholder
      * @param personId the personId value of the person whose data is going to be shown
      */
-    @Query("SELECT * FROM height_weight_database WHERE person_id = :personId AND isShown = 1 ORDER BY Time ASC ")
-    fun getAllForPersonSortDateAsc(personId: String): LiveData<List<HeightWeight>>
+    @Query("SELECT * FROM glucose_database WHERE person_id = :personId AND isShown = 1 ORDER BY Time ASC ")
+    fun getAllForPersonSortDateAsc(personId: String): LiveData<List<Glucose>>
 
     /**
      * Delete one person from the database
      * @param personId the personId value of the person whose data is about to be deleted
      */
-    @Query("DELETE FROM height_weight_database WHERE person_id = :personId")
+    @Query("DELETE FROM glucose_database WHERE person_id = :personId")
     fun deletePerson(personId: String)
 }
