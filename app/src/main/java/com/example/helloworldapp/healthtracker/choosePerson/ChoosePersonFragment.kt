@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.example.helloworldapp.healthtracker.R
@@ -40,16 +41,17 @@ class ChoosePersonFragment : Fragment() {
             withContext(Dispatchers.IO) {
                 viewModel.deferredPersonList.await()
             }
+            viewModel.personList.observe(viewLifecycleOwner, Observer {
+                val personLst = it
+                adapter = ArrayAdapter(
+                    requireActivity(),
+                    R.layout.spinner_first_view,
+                    personLst
+                )
+                adapter.setDropDownViewResource(R.layout.spinner_dropdown)
+                binding.personSpinner.adapter = adapter
+            })
         }
-        viewModel.personList.observe(viewLifecycleOwner, Observer {
-            adapter = ArrayAdapter(
-                requireActivity(),
-                R.layout.spinner_first_view,
-                viewModel.personList
-            )
-            adapter.setDropDownViewResource(R.layout.spinner_dropdown)
-            binding.personSpinner.adapter = adapter
-        })
 
 
 
@@ -74,4 +76,3 @@ class ChoosePersonFragment : Fragment() {
 }
 
 
-}

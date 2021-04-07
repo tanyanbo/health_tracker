@@ -45,7 +45,7 @@ interface BloodPressureDatabaseDao {
      * Get the list of people to show in the person chooser spinner.
      */
     @Query("SELECT DISTINCT person_id FROM blood_pressure_database")
-    fun getAllPersonId(): List<String>
+    fun getAllPersonId(): LiveData<List<String>>
 
     /**
      * Get all the data for one person except the first row (which is the row

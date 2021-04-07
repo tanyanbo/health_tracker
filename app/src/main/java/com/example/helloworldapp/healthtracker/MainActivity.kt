@@ -63,7 +63,7 @@ class MainActivity : AppCompatActivity() {
 
             // checks to see if there is data in the database, if there isn't any data,
             // then navigate to the add person screen
-            if (viewModel.personList.isEmpty()) {
+            if (viewModel.personList.value.isNullOrEmpty()) {
                 navigateToFragment(addPersonFragment)
             }
         }
