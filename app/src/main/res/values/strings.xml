@@ -1,0 +1,44 @@
+<resources>
+    <string name="app_name">Health Tracker</string>
+    <string name="enter_high_blood_pressure">Enter High Blood Pressure</string>
+    <string name="enter_low_blood_pressure">Enter Low Blood Pressure</string>
+    <string name="enter_heart_rate">Enter Heart Rate</string>
+    <string name="blood_pressure_recorder">Blood Pressure Recorder</string>
+    <string name="enter_date">Enter date</string>
+    <string name="save_data">Save Data</string>
+    <string name="saved_data">Saved Data</string>
+    <string name="high_bp">High BP</string>
+    <string name="low_bp">Low BP</string>
+    <string name="heart_rate">HR</string>
+    <string name="date">Date</string>
+    <string name="time">Time</string>
+    <string name="delete_all">Delete all</string>
+    <string name="delete_dialog_title">Delete</string>
+    <string name="delete_dialog_message">Are you sure you want to clear all your data?</string>
+    <string name="delete_dialog_message_one_row">Are you sure you want to delete?</string>
+    <string name="delete_dialog_positive_button">Yes</string>
+    <string name="delete_dialog_negative_button">Cancel</string>
+    <string name="go_to_data">Go to data</string>
+    <string name="back">Back</string>
+    <string name="add_record">Add record</string>
+    <string name="customize_time">Customize Time</string>
+    <string name="add_person">Add person</string>
+    <string name="save_person">Save person</string>
+    <string name="enter_name_of_new_person">Enter name of new person</string>
+    <string name="delete">Delete</string>
+    <string name="delete_all_people">Are you sure you want to delete all data for everyone?</string>
+    <string name="sort">Sort</string>
+    <string name="sort_date_ascending">Sort by date (ascending)</string>
+    <string name="sort_date_descending">Sort by date (descending)</string>
+    <string name="choose_another_person">Choose another person</string>
+    <string name="choose_person_fragment">Choose person</string>
+    <string name="add_person_fragment">Add a new person</string>
+    <string name="blood_pressure">BP</string>
+    <string name="height_amp_weight">Weight</string>
+    <string name="blood_glucose">Glucose</string>
+    <string name="change_person">Change</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="weight">Weight</string>
+    <string name="height">Height</string>
+</resources>

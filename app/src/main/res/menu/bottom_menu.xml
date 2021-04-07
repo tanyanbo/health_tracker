@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/bloodPressure"
+        android:title="@string/blood_pressure"
+        android:icon="@drawable/ic_blood_pressure"/>
+
+    <item
+        android:id="@+id/heightWeight"
+        android:title="@string/height_amp_weight"
+        android:icon="@drawable/ic_weight"/>
+
+    <item
+        android:id="@+id/placeholder"
+        android:title=""
+        android:enabled="false"/>
+
+    <item
+        android:id="@+id/glucose"
+        android:title="@string/blood_glucose"
+        android:icon="@drawable/ic_glucose"/>
+
+    <item
+        android:id="@+id/person"
+        android:title="@string/change_person"
+        android:icon="@drawable/ic_baseline_person_24"/>
+
+
+</menu>

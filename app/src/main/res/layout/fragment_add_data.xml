@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".addData.AddDataFragment">
+
+        <EditText
+            android:id="@+id/etBox1"
+            android:layout_width="250dp"
+            android:layout_height="50dp"
+            android:background="@drawable/custom_edit_text"
+            android:ems="10"
+            android:hint="@string/enter_high_blood_pressure"
+            android:inputType="number"
+            android:paddingStart="10dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.503"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.18" />
+
+        <EditText
+            android:id="@+id/etBox2"
+            android:layout_width="250dp"
+            android:layout_height="50dp"
+            android:ems="10"
+            android:background="@drawable/custom_edit_text"
+            android:paddingStart="10dp"
+            android:hint="@string/enter_low_blood_pressure"
+            android:inputType="number"
+            app:layout_constraintEnd_toEndOf="@+id/etBox1"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/etBox1"
+            app:layout_constraintTop_toBottomOf="@id/etBox1"
+            android:layout_marginTop="50dp" />
+
+        <EditText
+            android:id="@+id/etBox3"
+            android:layout_width="250dp"
+            android:layout_height="50dp"
+            android:ems="10"
+            android:background="@drawable/custom_edit_text"
+            android:paddingStart="10dp"
+            android:hint="@string/enter_heart_rate"
+            android:inputType="number"
+            app:layout_constraintEnd_toEndOf="@+id/etBox1"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="@+id/etBox1"
+            app:layout_constraintTop_toBottomOf="@id/etBox1"
+            android:layout_marginTop="150dp"/>
+
+        <EditText
+            android:id="@+id/etDate"
+            android:layout_width="250dp"
+            android:layout_height="50dp"
+            android:ems="10"
+            android:background="@drawable/custom_edit_text"
+            android:paddingStart="10dp"
+            android:hint="@string/enter_date"
+            android:inputType="number"
+            android:visibility="invisible"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            app:layout_constraintEnd_toEndOf="@+id/etBox1"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="@+id/etBox1"
+            app:layout_constraintTop_toBottomOf="@id/etBox1"
+            android:layout_marginTop="250dp"/>
+
+
+        <Button
+            android:id="@+id/button"
+            android:text="@string/save_data"
+            style="@style/ButtonStyle"
+            app:backgroundTint="@null"
+            app:layout_constraintEnd_toEndOf="@+id/etBox1"
+            app:layout_constraintStart_toStartOf="@+id/etBox1"
+            app:layout_constraintTop_toBottomOf="@+id/etBox1"
+            android:layout_marginTop="350dp"/>
+
+        <Switch
+            android:id="@+id/customTimeSwitch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/customize_time"
+            android:switchPadding="10dp"
+            app:layout_constraintBottom_toTopOf="@+id/etBox1"
+            app:layout_constraintEnd_toEndOf="@+id/etBox1"
+            app:layout_constraintStart_toStartOf="@+id/etBox1"
+            android:layout_marginBottom="20dp"/>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
