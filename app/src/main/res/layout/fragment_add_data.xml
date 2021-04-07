@@ -64,7 +64,7 @@
             android:paddingStart="10dp"
             android:hint="@string/enter_date"
             android:inputType="number"
-            android:visibility="invisible"
+            android:visibility="gone"
             android:focusable="false"
             android:focusableInTouchMode="false"
             app:layout_constraintEnd_toEndOf="@+id/etBox1"
@@ -93,7 +93,7 @@
             app:layout_constraintBottom_toTopOf="@+id/etBox1"
             app:layout_constraintEnd_toEndOf="@+id/etBox1"
             app:layout_constraintStart_toStartOf="@+id/etBox1"
-            android:layout_marginBottom="20dp"/>
+            android:layout_marginBottom="20dp" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
