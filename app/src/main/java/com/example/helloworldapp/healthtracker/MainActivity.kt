@@ -56,19 +56,19 @@ class MainActivity : AppCompatActivity() {
             viewModelFactory
         ).get(com.example.helloworldapp.healthtracker.viewModel.ViewModel::class.java)
 
-        Log.i(TAG, "testing")
-        lifecycleScope.launch(Dispatchers.IO) {
+        lifecycleScope.launch {
             withContext(Dispatchers.IO) {
                 viewModel.deferredPersonList.await()
             }
+
             // checks to see if there is data in the database, if there isn't any data,
             // then navigate to the add person screen
-            withContext(Dispatchers.IO) {
-                if (viewModel.personList.value.isNullOrEmpty()) {
-                    navigateToFragment(addPersonFragment)
-                }
+            if (viewModel.personList.isEmpty()) {
+                navigateToFragment(addPersonFragment)
             }
         }
+
+
 
 
         /**
