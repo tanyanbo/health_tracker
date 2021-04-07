@@ -18,7 +18,10 @@ class MainActivity : AppCompatActivity() {
     private lateinit var glucoseFragment: GlucoseFragment
     private lateinit var heightWeightFragment: HeightWeightFragment
     private lateinit var addPersonFragment: AddPersonFragment
+    private lateinit var addDataFragment: AddDataFragment
+
     override fun onCreate(savedInstanceState: Bundle?) {
+
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
 
@@ -28,11 +31,20 @@ class MainActivity : AppCompatActivity() {
         glucoseFragment = GlucoseFragment()
         heightWeightFragment = HeightWeightFragment()
         addPersonFragment = AddPersonFragment()
+        addDataFragment = AddDataFragment()
 
         navigateToFragment(bloodPressureFragment)
 
         binding.fab.setOnClickListener {
+//            supportFragmentManager.beginTransaction().apply {
+//                replace(R.id.frameLayout, addDataFragment)
+//                setCustomAnimations(R.anim.scale, R.anim.scale_exit)
+//                addToBackStack(null)
+//                commit()
+//            }
 
+            supportFragmentManager.beginTransaction().setCustomAnimations(R.anim.scale, R.anim.scale_exit)
+                .replace(R.id.frameLayout, addDataFragment).addToBackStack(null).commit()
         }
 
         binding.bottomNavBar.setOnNavigationItemSelectedListener {
