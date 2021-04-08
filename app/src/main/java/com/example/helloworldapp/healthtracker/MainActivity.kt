@@ -60,6 +60,10 @@ class MainActivity : AppCompatActivity() {
         viewModel.initializePreviousFragment()
         viewModel.initializeCurrentSelectedPersonId()
 
+        viewModel.currentSelectedPersonId.observe(this, Observer {
+            Log.i(TAG, "${it}")
+
+        })
         navigateToFragment(bloodPressureFragment)
 
         lifecycleScope.launch {
