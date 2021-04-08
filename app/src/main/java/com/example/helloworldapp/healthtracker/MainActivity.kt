@@ -152,5 +152,10 @@ class MainActivity : AppCompatActivity() {
             commit()
         }
     }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Log.i(TAG, "activity destroyed")
+    }
 }
 
