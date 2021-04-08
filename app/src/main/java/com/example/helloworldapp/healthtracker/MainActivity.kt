@@ -20,6 +20,7 @@ import com.example.helloworldapp.healthtracker.glucose.GlucoseFragment
 import com.example.helloworldapp.healthtracker.heightWeight.HeightWeightFragment
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 
 class MainActivity : AppCompatActivity() {
@@ -58,9 +59,27 @@ class MainActivity : AppCompatActivity() {
         ).get(com.example.helloworldapp.healthtracker.viewModel.ViewModel::class.java)
 
         viewModel.initializePreviousFragment()
-        viewModel.initializeCurrentSelectedPersonId()
+        val job = lifecycleScope.launch(Dispatchers.Default) {
+            runBlocking {
+                viewModel.initializeCurrentSelectedPersonId()
+            }
+            Log.i(TAG, "finished setting current selected person ID")
+            Log.i(TAG, "${viewModel.currentSelectedPersonId.value}")
 
-        navigateToFragment(bloodPressureFragment)
+        }
+
+
+        lifecycleScope.launch {
+//            viewModel.job2.join()
+            job.join()
+            viewModel.currentSelectedPersonId.observe(this@MainActivity, Observer {
+                Log.i(TAG, "$it")
+            })
+            viewModel.setBloodPressureAllDataOnePerson()
+            navigateToFragment(bloodPressureFragment)
+        }
+
+
 
         lifecycleScope.launch {
             withContext(Dispatchers.IO) {

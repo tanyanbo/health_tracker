@@ -5,20 +5,19 @@ import android.util.Log
 import androidx.lifecycle.*
 import androidx.lifecycle.ViewModel
 import com.example.helloworldapp.healthtracker.R
+import com.example.helloworldapp.healthtracker.database.bloodPressure.BloodPressure
 import com.example.helloworldapp.healthtracker.database.bloodPressure.BloodPressureDatabase
-import kotlinx.coroutines.Deferred
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 
-class ViewModel(application: Application): AndroidViewModel(application) {
+class ViewModel(application: Application) : AndroidViewModel(application) {
 
     // variable to store which is the current fragment
     private val _previousFragment = MutableLiveData<Int>()
     val previousFragment: LiveData<Int>
         get() = _previousFragment
 
-    private val bloodPressureDataSource = BloodPressureDatabase.getInstance(application).bloodPressureDatabaseDao
+    private val bloodPressureDataSource =
+        BloodPressureDatabase.getInstance(application).bloodPressureDatabaseDao
 
     // The person list to show in the pick person spinner
     private lateinit var _personList: LiveData<List<String>>
@@ -39,14 +38,43 @@ class ViewModel(application: Application): AndroidViewModel(application) {
     val currentSelectedPersonId: LiveData<String>
         get() = _currentSelectedPersonId
 
+
+    lateinit var temp: String
+    lateinit var job: Job
+    lateinit var job1: Job
+//    lateinit var job2: Job
+    lateinit var temp1: LiveData<List<BloodPressure>>
+    lateinit var bloodPressureAllDataOnePerson: LiveData<List<BloodPressure>>
+
     /**
      * Initializes the current selected person's Id to the first row of the
      * blood pressure database
      */
-    fun initializeCurrentSelectedPersonId() {
-        viewModelScope.launch(Dispatchers.IO) {
-            _currentSelectedPersonId.value = bloodPressureDataSource.getFirstPersonId()
+    suspend fun initializeCurrentSelectedPersonId() {
+        job = viewModelScope.launch(Dispatchers.IO) {
+            temp = bloodPressureDataSource.getFirstPersonId()
         }
+        Log.i("MainActivity", "launched job")
+
+        job.join()
+        _currentSelectedPersonId.postValue(temp)
+        Log.i("MainActivity", "job2 done")
+
+//        Log.i("MainActivity", "launched job2")
+    }
+
+    fun setBloodPressureAllDataOnePerson() {
+        job1 = viewModelScope.launch(Dispatchers.IO) {
+            Log.i("MainActivity", "about to call currentSelectedPersonId")
+            currentSelectedPersonId.value?.let {
+                temp1 = bloodPressureDataSource.getAllForPerson(it)
+            }
+        }
+        viewModelScope.launch(Dispatchers.Main) {
+            job1.join()
+            bloodPressureAllDataOnePerson = temp1
+        }
+
     }
 
     /**
