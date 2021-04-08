@@ -5,19 +5,24 @@ import android.util.Log
 import androidx.lifecycle.*
 import androidx.lifecycle.ViewModel
 import com.example.helloworldapp.healthtracker.R
+import com.example.helloworldapp.healthtracker.database.bloodPressure.BloodPressure
 import com.example.helloworldapp.healthtracker.database.bloodPressure.BloodPressureDatabase
-import kotlinx.coroutines.Deferred
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
+import com.example.helloworldapp.healthtracker.database.glucose.GlucoseDatabase
+import com.example.helloworldapp.healthtracker.database.heightWeight.HeightWeightDatabase
+import kotlinx.coroutines.*
 
-class ViewModel(application: Application): AndroidViewModel(application) {
+class ViewModel(application: Application) : AndroidViewModel(application) {
 
     // variable to store which is the current fragment
     private val _previousFragment = MutableLiveData<Int>()
     val previousFragment: LiveData<Int>
         get() = _previousFragment
 
-    private val bloodPressureDataSource = BloodPressureDatabase.getInstance(application).bloodPressureDatabaseDao
+    private val bloodPressureDataSource =
+        BloodPressureDatabase.getInstance(application).bloodPressureDatabaseDao
+    private val glucoseDataSource = GlucoseDatabase.getInstance(application).glucoseDatabaseDao
+    private val heightWeightDataSource =
+        HeightWeightDatabase.getInstance(application).heightWeightDatabaseDao
 
     // The person list to show in the pick person spinner
     private lateinit var _personList: LiveData<List<String>>
@@ -37,6 +42,16 @@ class ViewModel(application: Application): AndroidViewModel(application) {
     private val _currentSelectedPersonId = MutableLiveData<String>()
     val currentSelectedPersonId: LiveData<String>
         get() = _currentSelectedPersonId
+
+
+
+    lateinit var bloodPressureAllData: LiveData<List<BloodPressure>>
+
+    fun getAllData(currentPerson: String) {
+
+        bloodPressureDataSource.getAllForPerson(currentPerson)
+    }
+
 
 
 
