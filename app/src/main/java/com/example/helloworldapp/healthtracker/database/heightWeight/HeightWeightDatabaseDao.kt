@@ -79,4 +79,7 @@ interface HeightWeightDatabaseDao {
      */
     @Query("DELETE FROM height_weight_database WHERE person_id = :personId")
     fun deletePerson(personId: String)
+
+    @Query("SELECT MAX(time) FROM height_weight_database")
+    fun getLatestTime(): Long
 }

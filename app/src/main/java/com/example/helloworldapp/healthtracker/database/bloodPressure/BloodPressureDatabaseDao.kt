@@ -78,4 +78,7 @@ interface BloodPressureDatabaseDao {
      */
     @Query("DELETE FROM blood_pressure_database WHERE person_id = :personId")
     fun deletePerson(personId: String)
+
+    @Query("SELECT person_id FROM blood_pressure_database ORDER BY id DESC LIMIT 1")
+    fun getFirstPersonId(): String
 }

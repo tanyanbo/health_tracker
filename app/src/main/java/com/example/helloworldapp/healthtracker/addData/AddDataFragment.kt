@@ -76,6 +76,11 @@ class AddDataFragment : Fragment(), DatePickerDialog.OnDateSetListener,
         heightWeightDataSource =
             HeightWeightDatabase.getInstance(requireActivity().application).heightWeightDatabaseDao
 
+        lifecycleScope.launch(Dispatchers.IO) {
+            chosenPersonId = bloodPressureDataSource.getFirstPersonId()
+        }
+
+
 //        Log.i(TAG, "right after set ischecked: ${binding.customTimeSwitch.isChecked}")
 
         /**

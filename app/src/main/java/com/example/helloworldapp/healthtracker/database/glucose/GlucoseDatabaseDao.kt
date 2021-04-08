@@ -79,4 +79,7 @@ interface GlucoseDatabaseDao {
      */
     @Query("DELETE FROM glucose_database WHERE person_id = :personId")
     fun deletePerson(personId: String)
+
+    @Query("SELECT MAX(time) FROM glucose_database")
+    fun getLatestTime(): Long
 }

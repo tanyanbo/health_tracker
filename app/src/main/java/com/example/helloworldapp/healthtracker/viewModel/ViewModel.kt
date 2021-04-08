@@ -12,6 +12,7 @@ import kotlinx.coroutines.async
 
 class ViewModel(application: Application): AndroidViewModel(application) {
 
+    // variable to store which is the current fragment
     private val _previousFragment = MutableLiveData<Int>()
     val previousFragment: LiveData<Int>
         get() = _previousFragment
@@ -36,6 +37,8 @@ class ViewModel(application: Application): AndroidViewModel(application) {
     private val _currentSelectedPersonId = MutableLiveData<String>()
     val currentSelectedPersonId: LiveData<String>
         get() = _currentSelectedPersonId
+
+
 
     /**
      * Changes the bottom app bar from visible to invisible and vice versa
@@ -67,6 +70,15 @@ class ViewModel(application: Application): AndroidViewModel(application) {
             R.id.person -> _previousFragment.value = 4
             else -> _previousFragment.value = 0
         }
+    }
+
+    /**
+     * Initialize the previous fragment value to 1 so that the add data fragment knows
+     * that the user is entering blood pressure data if the first button the user clicks
+     * after he enters the app is the fab
+     */
+    fun initializePreviousFragment() {
+        _previousFragment.value = 1
     }
 
     /**
