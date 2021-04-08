@@ -1,6 +1,7 @@
 package com.example.helloworldapp.healthtracker.viewModel
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.*
 import androidx.lifecycle.ViewModel
 import com.example.helloworldapp.healthtracker.R
@@ -15,7 +16,7 @@ class ViewModel(application: Application): AndroidViewModel(application) {
     val previousFragment: LiveData<Int>
         get() = _previousFragment
 
-     val bloodPressureDataSource = BloodPressureDatabase.getInstance(application).bloodPressureDatabaseDao
+    private val bloodPressureDataSource = BloodPressureDatabase.getInstance(application).bloodPressureDatabaseDao
 
     private lateinit var _personList: LiveData<List<String>>
     val personList: LiveData<List<String>>

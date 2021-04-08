@@ -6,6 +6,7 @@ import android.util.Log
 import android.widget.EditText
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -58,17 +59,19 @@ class MainActivity : AppCompatActivity() {
 
         lifecycleScope.launch {
             withContext(Dispatchers.IO) {
-                viewModel.deferredPersonList.await()
+
+                viewModel.deferredPersonList.join()
+
             }
 
+        }
+        viewModel.personList.observe(this@MainActivity, Observer {
             // checks to see if there is data in the database, if there isn't any data,
             // then navigate to the add person screen
-            if (viewModel.personList.value.isNullOrEmpty()) {
+            if (it.isNullOrEmpty()) {
                 navigateToFragment(addPersonFragment)
             }
-        }
-
-
+        })
 
 
         /**

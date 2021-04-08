@@ -15,10 +15,10 @@ data class HeightWeight(
     @ColumnInfo(name = "person_id")
     val personId: String = "test",
 
-    @ColumnInfo(name="high_bp")
+    @ColumnInfo(name="height")
     val height: String = "170",
 
-    @ColumnInfo(name="low_bp")
+    @ColumnInfo(name="weight")
     val weight: String = "70",
 
     @ColumnInfo(name="Date")

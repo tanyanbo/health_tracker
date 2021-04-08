@@ -15,7 +15,7 @@ data class Glucose(
     @ColumnInfo(name = "person_id")
     val personId: String = "test",
 
-    @ColumnInfo(name="high_bp")
+    @ColumnInfo(name="glucose")
     val glucose: String = "6.5",
 
     @ColumnInfo(name="Date")

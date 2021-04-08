@@ -15,7 +15,7 @@ import com.example.helloworldapp.healthtracker.database.bloodPressure.BloodPress
  * This pattern is pretty much the same for any database,
  * so you can reuse it.
  */
-@Database(entities = [HeightWeight::class], version = 1, exportSchema = false)
+@Database(entities = [HeightWeight::class], version = 2, exportSchema = false)
 abstract class HeightWeightDatabase: RoomDatabase() {
 
     /**
