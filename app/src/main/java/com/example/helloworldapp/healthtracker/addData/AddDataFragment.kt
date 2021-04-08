@@ -19,6 +19,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.example.helloworldapp.healthtracker.R
+import com.example.helloworldapp.healthtracker.bloodPressure.BloodPressureFragment
 import com.example.helloworldapp.healthtracker.database.bloodPressure.BloodPressure
 import com.example.helloworldapp.healthtracker.database.bloodPressure.BloodPressureDatabase
 import com.example.helloworldapp.healthtracker.database.bloodPressure.BloodPressureDatabaseDao
@@ -29,6 +30,8 @@ import com.example.helloworldapp.healthtracker.database.heightWeight.HeightWeigh
 import com.example.helloworldapp.healthtracker.database.heightWeight.HeightWeightDatabase
 import com.example.helloworldapp.healthtracker.database.heightWeight.HeightWeightDatabaseDao
 import com.example.helloworldapp.healthtracker.databinding.FragmentAddDataBinding
+import com.example.helloworldapp.healthtracker.glucose.GlucoseFragment
+import com.example.helloworldapp.healthtracker.heightWeight.HeightWeightFragment
 import com.example.helloworldapp.healthtracker.viewModel.ViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -215,6 +218,9 @@ class AddDataFragment : Fragment(), DatePickerDialog.OnDateSetListener,
         etDate.hint = "$savedYear-${savedMonth + 1}-$savedDay    $savedHour:$stringMinute"
     }
 
+    /**
+     * Saves the data into the database and navigates back to the Height weight fragment
+     */
     private fun onSaveButtonClickedHeightWeight() {
         val dataToBeSaved = HeightWeight(
             personId = chosenPersonId,
@@ -224,8 +230,17 @@ class AddDataFragment : Fragment(), DatePickerDialog.OnDateSetListener,
         lifecycleScope.launch {
             withContext(Dispatchers.IO) { heightWeightDataSource.insert(dataToBeSaved) }
         }
+
+        parentFragmentManager.beginTransaction().apply {
+            replace(R.id.frameLayout, HeightWeightFragment())
+            addToBackStack(null)
+            commit()
+        }
     }
 
+    /**
+     * Saves the data into the database and navigates back to the Glucose fragment
+     */
     private fun onSaveButtonClickedGlucose() {
         val dataToBeSaved = Glucose(
             personId = chosenPersonId,
@@ -234,8 +249,16 @@ class AddDataFragment : Fragment(), DatePickerDialog.OnDateSetListener,
         lifecycleScope.launch {
             withContext(Dispatchers.IO) { glucoseDataSource.insert(dataToBeSaved) }
         }
+        parentFragmentManager.beginTransaction().apply {
+            replace(R.id.frameLayout, GlucoseFragment())
+            addToBackStack(null)
+            commit()
+        }
     }
 
+    /**
+     * Saves the data into the database and navigates back to the Blood Pressure fragment
+     */
     private fun onSaveButtonClickedBloodPressure() {
         val dataToBeSaved = BloodPressure(
             personId = chosenPersonId,
@@ -245,6 +268,12 @@ class AddDataFragment : Fragment(), DatePickerDialog.OnDateSetListener,
         )
         lifecycleScope.launch {
             withContext(Dispatchers.IO) { bloodPressureDataSource.insert(dataToBeSaved) }
+        }
+
+        parentFragmentManager.beginTransaction().apply {
+            replace(R.id.frameLayout, BloodPressureFragment())
+            addToBackStack(null)
+            commit()
         }
     }
 
