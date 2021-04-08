@@ -4,11 +4,9 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.EditText
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.example.helloworldapp.healthtracker.addData.AddDataFragment
@@ -70,12 +68,11 @@ class MainActivity : AppCompatActivity() {
 
 
         lifecycleScope.launch {
-//            viewModel.job2.join()
             job.join()
             viewModel.currentSelectedPersonId.observe(this@MainActivity, Observer {
                 Log.i(TAG, "$it")
             })
-            viewModel.setBloodPressureAllDataOnePerson()
+            viewModel.initBloodPressureAllDataOnePerson()
             navigateToFragment(bloodPressureFragment)
         }
 

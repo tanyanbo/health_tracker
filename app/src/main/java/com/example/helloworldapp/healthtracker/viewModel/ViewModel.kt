@@ -39,11 +39,13 @@ class ViewModel(application: Application) : AndroidViewModel(application) {
         get() = _currentSelectedPersonId
 
 
+    // Temporary variables
     lateinit var temp: String
     lateinit var job: Job
     lateinit var job1: Job
-//    lateinit var job2: Job
+    lateinit var job2: Job
     lateinit var temp1: LiveData<List<BloodPressure>>
+    lateinit var temp2: LiveData<List<BloodPressure>>
     lateinit var bloodPressureAllDataOnePerson: LiveData<List<BloodPressure>>
 
     /**
@@ -54,18 +56,16 @@ class ViewModel(application: Application) : AndroidViewModel(application) {
         job = viewModelScope.launch(Dispatchers.IO) {
             temp = bloodPressureDataSource.getFirstPersonId()
         }
-        Log.i("MainActivity", "launched job")
-
         job.join()
         _currentSelectedPersonId.postValue(temp)
-        Log.i("MainActivity", "job2 done")
-
-//        Log.i("MainActivity", "launched job2")
     }
 
-    fun setBloodPressureAllDataOnePerson() {
+    /**
+     * Initializes the person in the first row's data to the bloodPressureAllDataOnePerson
+     * variable so that the variable will not be null
+     */
+    fun initBloodPressureAllDataOnePerson() {
         job1 = viewModelScope.launch(Dispatchers.IO) {
-            Log.i("MainActivity", "about to call currentSelectedPersonId")
             currentSelectedPersonId.value?.let {
                 temp1 = bloodPressureDataSource.getAllForPerson(it)
             }
@@ -74,8 +74,21 @@ class ViewModel(application: Application) : AndroidViewModel(application) {
             job1.join()
             bloodPressureAllDataOnePerson = temp1
         }
-
     }
+
+    fun setBloodPressureAllDataOnePerson() {
+        job2 = viewModelScope.launch(Dispatchers.IO) {
+            currentSelectedPersonId.value?.let {
+                temp2 = bloodPressureDataSource.getAllForPerson(it)
+            }
+        }
+        viewModelScope.launch(Dispatchers.Main) {
+            job2.join()
+            bloodPressureAllDataOnePerson = temp2
+        }
+    }
+
+
 
     /**
      * Changes the bottom app bar from visible to invisible and vice versa
@@ -88,7 +101,7 @@ class ViewModel(application: Application) : AndroidViewModel(application) {
 
     /**
      * Changes the current selected person
-     * @param personId of the current selected person
+     * @param personId person_id of the current selected person
      */
     fun changeCurrentSelectedPerson(personId: String) {
         _currentSelectedPersonId.value = personId

@@ -73,6 +73,8 @@ class ChoosePersonFragment : Fragment() {
 
         binding.buttonGoToData.setOnClickListener {
             viewModel.changeCurrentSelectedPerson(chosenPersonId)
+            viewModel.setBloodPressureAllDataOnePerson()
+
         }
 
         return binding.root
