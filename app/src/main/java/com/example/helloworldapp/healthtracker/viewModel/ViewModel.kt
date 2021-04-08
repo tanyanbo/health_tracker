@@ -9,6 +9,7 @@ import com.example.helloworldapp.healthtracker.database.bloodPressure.BloodPress
 import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
 
 class ViewModel(application: Application): AndroidViewModel(application) {
 
@@ -38,7 +39,15 @@ class ViewModel(application: Application): AndroidViewModel(application) {
     val currentSelectedPersonId: LiveData<String>
         get() = _currentSelectedPersonId
 
-
+    /**
+     * Initializes the current selected person's Id to the first row of the
+     * blood pressure database
+     */
+    fun initializeCurrentSelectedPersonId() {
+        viewModelScope.launch(Dispatchers.IO) {
+            _currentSelectedPersonId.value = bloodPressureDataSource.getFirstPersonId()
+        }
+    }
 
     /**
      * Changes the bottom app bar from visible to invisible and vice versa

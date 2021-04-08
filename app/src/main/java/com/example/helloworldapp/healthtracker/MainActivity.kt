@@ -49,9 +49,6 @@ class MainActivity : AppCompatActivity() {
         addDataFragment = AddDataFragment()
         choosePersonFragment = ChoosePersonFragment()
 
-        navigateToFragment(bloodPressureFragment)
-
-
 
         val viewModelFactory =
             com.example.helloworldapp.healthtracker.viewModel.ViewModel.Factory(this.application)
@@ -61,6 +58,9 @@ class MainActivity : AppCompatActivity() {
         ).get(com.example.helloworldapp.healthtracker.viewModel.ViewModel::class.java)
 
         viewModel.initializePreviousFragment()
+        viewModel.initializeCurrentSelectedPersonId()
+
+        navigateToFragment(bloodPressureFragment)
 
         lifecycleScope.launch {
             withContext(Dispatchers.IO) {
