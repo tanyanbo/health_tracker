@@ -3,6 +3,7 @@ package com.example.helloworldapp.healthtracker
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.EditText
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -50,6 +51,7 @@ class MainActivity : AppCompatActivity() {
 
         navigateToFragment(bloodPressureFragment)
 
+
         val viewModelFactory =
             com.example.helloworldapp.healthtracker.viewModel.ViewModel.Factory(this.application)
         val viewModel = ViewModelProvider(
@@ -57,20 +59,27 @@ class MainActivity : AppCompatActivity() {
             viewModelFactory
         ).get(com.example.helloworldapp.healthtracker.viewModel.ViewModel::class.java)
 
+
+
         lifecycleScope.launch {
             withContext(Dispatchers.IO) {
 
-                viewModel.deferredPersonList.join()
-
+                viewModel.deferredPersonList.await()
             }
 
+            viewModel.personList.observe(this@MainActivity, Observer {
+                // checks to see if there is data in the database, if there isn't any data,
+                // then navigate to the add person screen
+                if (it.isNullOrEmpty()) {
+                    navigateToFragment(addPersonFragment)
+                    viewModel.changeAppBarVisibility(false)
+                }
+            })
         }
-        viewModel.personList.observe(this@MainActivity, Observer {
-            // checks to see if there is data in the database, if there isn't any data,
-            // then navigate to the add person screen
-            if (it.isNullOrEmpty()) {
-                navigateToFragment(addPersonFragment)
-            }
+
+        viewModel.bottomAppBarIsVisible.observe(this, Observer {
+            binding.bottomAppBar.visibility = if (it) View.VISIBLE else View.INVISIBLE
+            binding.fab.visibility = if (it) View.VISIBLE else View.INVISIBLE
         })
 
 
@@ -141,6 +150,11 @@ class MainActivity : AppCompatActivity() {
             addToBackStack(null)
             commit()
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Log.i(TAG, "activity destroyed")
     }
 }
 

@@ -75,7 +75,7 @@
 
 
         <Button
-            android:id="@+id/button"
+            android:id="@+id/buttonSaveData"
             android:text="@string/save_data"
             style="@style/ButtonStyle"
             app:backgroundTint="@null"

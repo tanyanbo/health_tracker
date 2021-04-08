@@ -18,6 +18,7 @@ class ViewModel(application: Application): AndroidViewModel(application) {
 
     private val bloodPressureDataSource = BloodPressureDatabase.getInstance(application).bloodPressureDatabaseDao
 
+    // The person list to show in the pick person spinner
     private lateinit var _personList: LiveData<List<String>>
     val personList: LiveData<List<String>>
         get() = _personList
@@ -26,6 +27,32 @@ class ViewModel(application: Application): AndroidViewModel(application) {
         _personList = bloodPressureDataSource.getAllPersonId()
     }
 
+    // The variable that holds the visibility state of the bottom app bar
+    private val _bottomAppBarIsVisible = MutableLiveData<Boolean>()
+    val bottomAppBarIsVisible: LiveData<Boolean>
+        get() = _bottomAppBarIsVisible
+
+    // The variable that holds the current selected person
+    private val _currentSelectedPersonId = MutableLiveData<String>()
+    val currentSelectedPersonId: LiveData<String>
+        get() = _currentSelectedPersonId
+
+    /**
+     * Changes the bottom app bar from visible to invisible and vice versa
+     * @param state the state to change to
+     * @author Tan Yanbo
+     */
+    fun changeAppBarVisibility(state: Boolean) {
+        _bottomAppBarIsVisible.value = state
+    }
+
+    /**
+     * Changes the current selected person
+     * @param personId of the current selected person
+     */
+    fun changeCurrentSelectedPerson(personId: String) {
+        _currentSelectedPersonId.value = personId
+    }
 
     /**
      * Updates the previousFragment value so the add data fragment knows what to draw
@@ -42,6 +69,9 @@ class ViewModel(application: Application): AndroidViewModel(application) {
         }
     }
 
+    /**
+     * Provides a View Model Factory to construct the View Model
+     */
     class Factory(val app: Application) : ViewModelProvider.Factory {
         override fun <T : ViewModel?> create(modelClass: Class<T>): T {
             if (modelClass.isAssignableFrom(com.example.helloworldapp.healthtracker.viewModel.ViewModel::class.java)) {

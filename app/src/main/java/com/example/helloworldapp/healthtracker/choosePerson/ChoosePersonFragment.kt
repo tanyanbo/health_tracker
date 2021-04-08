@@ -71,6 +71,10 @@ class ChoosePersonFragment : Fragment() {
 
         }
 
+        binding.buttonGoToData.setOnClickListener {
+            viewModel.changeCurrentSelectedPerson(chosenPersonId)
+        }
+
         return binding.root
     }
 }

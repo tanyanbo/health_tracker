@@ -17,13 +17,27 @@ import android.widget.TimePicker
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import com.example.helloworldapp.healthtracker.R
+import com.example.helloworldapp.healthtracker.database.bloodPressure.BloodPressure
+import com.example.helloworldapp.healthtracker.database.bloodPressure.BloodPressureDatabase
+import com.example.helloworldapp.healthtracker.database.bloodPressure.BloodPressureDatabaseDao
+import com.example.helloworldapp.healthtracker.database.glucose.Glucose
+import com.example.helloworldapp.healthtracker.database.glucose.GlucoseDatabase
+import com.example.helloworldapp.healthtracker.database.glucose.GlucoseDatabaseDao
+import com.example.helloworldapp.healthtracker.database.heightWeight.HeightWeight
+import com.example.helloworldapp.healthtracker.database.heightWeight.HeightWeightDatabase
+import com.example.helloworldapp.healthtracker.database.heightWeight.HeightWeightDatabaseDao
 import com.example.helloworldapp.healthtracker.databinding.FragmentAddDataBinding
 import com.example.helloworldapp.healthtracker.viewModel.ViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.util.*
 
 
-class AddDataFragment : Fragment(), DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
+class AddDataFragment : Fragment(), DatePickerDialog.OnDateSetListener,
+    TimePickerDialog.OnTimeSetListener {
 
     var year = 0
     var month = 0
@@ -37,6 +51,11 @@ class AddDataFragment : Fragment(), DatePickerDialog.OnDateSetListener, TimePick
     var savedHour = hour
     var savedMinute = minute
 
+    private lateinit var bloodPressureDataSource: BloodPressureDatabaseDao
+    private lateinit var glucoseDataSource: GlucoseDatabaseDao
+    private lateinit var heightWeightDataSource: HeightWeightDatabaseDao
+    private lateinit var chosenPersonId: String
+
     val TAG = "AddDataFragment"
 
     private lateinit var binding: FragmentAddDataBinding
@@ -48,7 +67,14 @@ class AddDataFragment : Fragment(), DatePickerDialog.OnDateSetListener, TimePick
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_add_data, container, false)
 
 
-        binding.customTimeSwitch.isChecked= false
+        binding.customTimeSwitch.isChecked = false
+
+        bloodPressureDataSource =
+            BloodPressureDatabase.getInstance(requireActivity().application).bloodPressureDatabaseDao
+        glucoseDataSource =
+            GlucoseDatabase.getInstance(requireActivity().application).glucoseDatabaseDao
+        heightWeightDataSource =
+            HeightWeightDatabase.getInstance(requireActivity().application).heightWeightDatabaseDao
 
 //        Log.i(TAG, "right after set ischecked: ${binding.customTimeSwitch.isChecked}")
 
@@ -74,7 +100,12 @@ class AddDataFragment : Fragment(), DatePickerDialog.OnDateSetListener, TimePick
         }
 
         val viewModelFactory = ViewModel.Factory(requireActivity().application)
-        val viewModel = ViewModelProvider(requireActivity(), viewModelFactory).get(ViewModel::class.java)
+        val viewModel =
+            ViewModelProvider(requireActivity(), viewModelFactory).get(ViewModel::class.java)
+
+        viewModel.currentSelectedPersonId.observe(viewLifecycleOwner, Observer {
+            chosenPersonId = it
+        })
 
         /**
          * This is deciding how to draw the edit text boxes, for example it will draw only
@@ -84,15 +115,26 @@ class AddDataFragment : Fragment(), DatePickerDialog.OnDateSetListener, TimePick
          */
         viewModel.previousFragment.observe(viewLifecycleOwner, Observer {
             when (it) {
+                1 -> {
+                    binding.buttonSaveData.setOnClickListener {
+                        onSaveButtonClickedBloodPressure()
+                    }
+                }
                 2 -> {
                     binding.etBox1.hint = getString(R.string.enter_height)
                     binding.etBox2.hint = getString(R.string.enter_weight)
                     binding.etBox3.visibility = View.GONE
+                    binding.buttonSaveData.setOnClickListener {
+                        onSaveButtonClickedHeightWeight()
+                    }
                 }
                 3 -> {
                     binding.etBox1.hint = getString(R.string.enter_glucose)
                     binding.etBox2.visibility = View.GONE
                     binding.etBox3.visibility = View.GONE
+                    binding.buttonSaveData.setOnClickListener {
+                        onSaveButtonClickedGlucose()
+                    }
                 }
             }
         })
@@ -162,8 +204,44 @@ class AddDataFragment : Fragment(), DatePickerDialog.OnDateSetListener, TimePick
         val etDate: EditText = requireView().findViewById(R.id.etDate)
         if (savedMinute < 10) {
             stringMinute = ("0" + savedMinute.toString())
-        } else {stringMinute = savedMinute.toString()}
-        etDate.hint = "$savedYear-${savedMonth+1}-$savedDay    $savedHour:$stringMinute"
+        } else {
+            stringMinute = savedMinute.toString()
+        }
+        etDate.hint = "$savedYear-${savedMonth + 1}-$savedDay    $savedHour:$stringMinute"
     }
+
+    private fun onSaveButtonClickedHeightWeight() {
+        val dataToBeSaved = HeightWeight(
+            personId = chosenPersonId,
+            height = binding.etBox1.text.toString(),
+            weight = binding.etBox2.text.toString()
+        )
+        lifecycleScope.launch {
+            withContext(Dispatchers.IO) { heightWeightDataSource.insert(dataToBeSaved) }
+        }
+    }
+
+    private fun onSaveButtonClickedGlucose() {
+        val dataToBeSaved = Glucose(
+            personId = chosenPersonId,
+            glucose = binding.etBox1.text.toString()
+        )
+        lifecycleScope.launch {
+            withContext(Dispatchers.IO) { glucoseDataSource.insert(dataToBeSaved) }
+        }
+    }
+
+    private fun onSaveButtonClickedBloodPressure() {
+        val dataToBeSaved = BloodPressure(
+            personId = chosenPersonId,
+            highBP = binding.etBox1.text.toString(),
+            lowBP = binding.etBox2.text.toString(),
+            heartRate = binding.etBox3.text.toString()
+        )
+        lifecycleScope.launch {
+            withContext(Dispatchers.IO) { bloodPressureDataSource.insert(dataToBeSaved) }
+        }
+    }
+
 
 }

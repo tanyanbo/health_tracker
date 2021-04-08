@@ -1,11 +1,13 @@
 package com.example.helloworldapp.healthtracker.addPerson
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.helloworldapp.healthtracker.R
@@ -39,9 +41,21 @@ class AddPersonFragment : Fragment() {
     ): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_add_person, container, false)
 
-        bloodPressureDataSource = BloodPressureDatabase.getInstance(requireActivity().application).bloodPressureDatabaseDao
-        glucoseDataSource = GlucoseDatabase.getInstance(requireActivity().application).glucoseDatabaseDao
-        heightWeightDataSource = HeightWeightDatabase.getInstance(requireActivity().application).heightWeightDatabaseDao
+        bloodPressureDataSource =
+            BloodPressureDatabase.getInstance(requireActivity().application).bloodPressureDatabaseDao
+        glucoseDataSource =
+            GlucoseDatabase.getInstance(requireActivity().application).glucoseDatabaseDao
+        heightWeightDataSource =
+            HeightWeightDatabase.getInstance(requireActivity().application).heightWeightDatabaseDao
+
+        binding.etName.text = null
+
+        val viewModelFactory =
+            com.example.helloworldapp.healthtracker.viewModel.ViewModel.Factory(requireActivity().application)
+        val viewModel = ViewModelProvider(
+            requireActivity(),
+            viewModelFactory
+        ).get(com.example.helloworldapp.healthtracker.viewModel.ViewModel::class.java)
 
         /**
          * Inserts a placeholder row of data to represent the person that has just been added,
@@ -49,9 +63,12 @@ class AddPersonFragment : Fragment() {
          * the choose person screen.
          */
         binding.buttonSavePerson.setOnClickListener {
+            viewModel.changeAppBarVisibility(true)
+            viewModel.changeCurrentSelectedPerson(binding.etName.text.toString())
             val tempBp = BloodPressure(personId = binding.etName.text.toString(), isShown = false)
             val tempGlucose = Glucose(personId = binding.etName.text.toString(), isShown = false)
-            val tempHeightWeight = HeightWeight(personId = binding.etName.text.toString(), isShown = false)
+            val tempHeightWeight =
+                HeightWeight(personId = binding.etName.text.toString(), isShown = false)
             lifecycleScope.launch {
                 val deferred1 = async(Dispatchers.IO) {
                     bloodPressureDataSource.insert(tempBp)
