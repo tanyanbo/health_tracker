@@ -36,6 +36,8 @@ import com.example.helloworldapp.healthtracker.viewModel.ViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.sql.Timestamp
+import java.text.DateFormat
 import java.util.*
 
 
@@ -248,8 +250,22 @@ class AddDataFragment : Fragment(), DatePickerDialog.OnDateSetListener,
             glucose = binding.etBox1.text.toString()
         )
 
-        lifecycleScope.launch {
-            withContext(Dispatchers.IO) { glucoseDataSource.insert(dataToBeSaved) }
+        if (binding.etDate.hint == getString(R.string.enter_date)) {
+            lifecycleScope.launch {
+                withContext(Dispatchers.IO) { glucoseDataSource.insert(dataToBeSaved) }
+            }
+        } else {
+            val chosenDateTime = Timestamp.valueOf("$savedYear-${savedMonth+1}-$savedDay $savedHour:$savedMinute:00")
+            val dataToBeSavedWithDate = Glucose(
+                personId = chosenPersonId,
+                glucose = binding.etBox1.text.toString(),
+                date = DateFormat.getDateInstance().format(chosenDateTime.time),
+                time = chosenDateTime.time
+            )
+
+            lifecycleScope.launch {
+                withContext(Dispatchers.IO) { glucoseDataSource.insert(dataToBeSavedWithDate) }
+            }
         }
         parentFragmentManager.beginTransaction().apply {
             replace(R.id.frameLayout, GlucoseFragment())
