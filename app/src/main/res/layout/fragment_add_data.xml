@@ -95,6 +95,17 @@
             app:layout_constraintStart_toStartOf="@+id/etBox1"
             android:layout_marginBottom="20dp" />
 
+        <CheckBox
+            android:id="@+id/beforeFood"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/before_food_checkbox_message"
+            android:textSize="18sp"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="@+id/etBox1"
+            app:layout_constraintStart_toStartOf="@+id/etBox1"
+            app:layout_constraintTop_toBottomOf="@id/etBox1"/>
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

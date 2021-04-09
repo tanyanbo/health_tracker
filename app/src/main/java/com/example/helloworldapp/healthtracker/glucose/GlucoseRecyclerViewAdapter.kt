@@ -42,6 +42,7 @@ class GlucoseRecyclerViewAdapter(val listener: OnItemClickListener) :
 
         // initializes all the views in one row of the recycler view
         val glucose: TextView = itemView.findViewById(R.id.tvG)
+        val beforeAfterFood: TextView = itemView.findViewById(R.id.tvFood)
         val date: TextView = itemView.findViewById(R.id.tvDt)
         val time: TextView = itemView.findViewById(R.id.tvTm)
         val delIcon: ImageView = itemView.findViewById(R.id.imgDelete)
@@ -67,6 +68,7 @@ class GlucoseRecyclerViewAdapter(val listener: OnItemClickListener) :
          */
         fun bind(item: Glucose) {
             glucose.text = item.glucose
+            beforeAfterFood.text = item.beforeAfterFood
             date.text = item.date
             time.text = SimpleDateFormat("HH:mm:ss").format(item.time)
 

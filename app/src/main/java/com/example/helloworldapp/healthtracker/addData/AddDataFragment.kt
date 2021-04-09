@@ -144,6 +144,7 @@ class AddDataFragment : Fragment(), DatePickerDialog.OnDateSetListener,
                     binding.etBox1.hint = getString(R.string.enter_glucose)
                     binding.etBox2.visibility = View.GONE
                     binding.etBox3.visibility = View.GONE
+                    binding.beforeFood.visibility = View.VISIBLE
                     binding.buttonSaveData.setOnClickListener {
                         onSaveButtonClickedGlucose()
                     }
@@ -237,7 +238,8 @@ class AddDataFragment : Fragment(), DatePickerDialog.OnDateSetListener,
                 withContext(Dispatchers.IO) { heightWeightDataSource.insert(dataToBeSaved) }
             }
         } else {
-            val chosenDateTime = Timestamp.valueOf("$savedYear-${savedMonth+1}-$savedDay $savedHour:$savedMinute:00")
+            val chosenDateTime =
+                Timestamp.valueOf("$savedYear-${savedMonth + 1}-$savedDay $savedHour:$savedMinute:00")
             val dataToBeSavedWithDate = HeightWeight(
                 personId = chosenPersonId,
                 height = binding.etBox1.text.toString(),
@@ -265,7 +267,10 @@ class AddDataFragment : Fragment(), DatePickerDialog.OnDateSetListener,
         Log.i("AddDataFragment", "current chosenPersonId in button click listener: $chosenPersonId")
         val dataToBeSaved = Glucose(
             personId = chosenPersonId,
-            glucose = binding.etBox1.text.toString()
+            glucose = binding.etBox1.text.toString(),
+            beforeAfterFood = if (binding.beforeFood.isChecked) getString(R.string.before_food) else getString(
+                R.string.after_food
+            )
         )
 
         if (binding.etDate.hint == getString(R.string.enter_date)) {
@@ -273,12 +278,16 @@ class AddDataFragment : Fragment(), DatePickerDialog.OnDateSetListener,
                 withContext(Dispatchers.IO) { glucoseDataSource.insert(dataToBeSaved) }
             }
         } else {
-            val chosenDateTime = Timestamp.valueOf("$savedYear-${savedMonth+1}-$savedDay $savedHour:$savedMinute:00")
+            val chosenDateTime =
+                Timestamp.valueOf("$savedYear-${savedMonth + 1}-$savedDay $savedHour:$savedMinute:00")
             val dataToBeSavedWithDate = Glucose(
                 personId = chosenPersonId,
                 glucose = binding.etBox1.text.toString(),
                 date = DateFormat.getDateInstance().format(chosenDateTime.time),
-                time = chosenDateTime.time
+                time = chosenDateTime.time,
+                beforeAfterFood = if (binding.beforeFood.isChecked) getString(R.string.before_food) else getString(
+                    R.string.after_food
+                )
             )
 
             lifecycleScope.launch {
@@ -307,7 +316,8 @@ class AddDataFragment : Fragment(), DatePickerDialog.OnDateSetListener,
                 withContext(Dispatchers.IO) { bloodPressureDataSource.insert(dataToBeSaved) }
             }
         } else {
-            val chosenDateTime = Timestamp.valueOf("$savedYear-${savedMonth+1}-$savedDay $savedHour:$savedMinute:00")
+            val chosenDateTime =
+                Timestamp.valueOf("$savedYear-${savedMonth + 1}-$savedDay $savedHour:$savedMinute:00")
             val dataToBeSavedWithDate = BloodPressure(
                 personId = chosenPersonId,
                 highBP = binding.etBox1.text.toString(),

@@ -48,4 +48,5 @@
     <string name="before_after_food">餐前/餐后</string>
     <string name="before_food">餐前</string>
     <string name="after_food">餐后</string>
+    <string name="before_food_checkbox_message">餐前</string>
 </resources>

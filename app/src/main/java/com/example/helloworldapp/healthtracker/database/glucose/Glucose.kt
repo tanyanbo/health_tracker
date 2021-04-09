@@ -18,6 +18,9 @@ data class Glucose(
     @ColumnInfo(name="glucose")
     val glucose: String = "6.5",
 
+    @ColumnInfo(name = "before_after_food")
+    val beforeAfterFood: String = "before",
+
     @ColumnInfo(name="Date")
     val date: String = DateFormat.getDateInstance().format(Calendar.getInstance().time),
 
