@@ -38,26 +38,45 @@ class ViewModel(application: Application) : AndroidViewModel(application) {
     val currentSelectedPersonId: LiveData<String>
         get() = _currentSelectedPersonId
 
+    // Variable to hold whether or not to navigate to Add Person fragment
+    private val _isEmptyDatabase = MutableLiveData<Boolean>()
+    val isEmptyDatabase: LiveData<Boolean>
+        get() = _isEmptyDatabase
+
 
     // Temporary variables
-    lateinit var temp: String
-    lateinit var job: Job
-    lateinit var job1: Job
-    lateinit var job2: Job
-    lateinit var temp1: LiveData<List<BloodPressure>>
-    lateinit var temp2: LiveData<List<BloodPressure>>
+//    lateinit var temp: String
+//    lateinit var job: Job
+//    lateinit var job1: Job
+//    lateinit var job2: Job
+//    lateinit var temp1: LiveData<List<BloodPressure>>
+//    lateinit var temp2: LiveData<List<BloodPressure>>
     lateinit var bloodPressureAllDataOnePerson: LiveData<List<BloodPressure>>
 
     /**
      * Initializes the current selected person's Id to the first row of the
      * blood pressure database
      */
-    suspend fun initializeCurrentSelectedPersonId() {
-        job = viewModelScope.launch(Dispatchers.IO) {
-            temp = bloodPressureDataSource.getFirstPersonId()
+    fun initializeCurrentSelectedPersonId() {
+        try {
+            viewModelScope.launch(Dispatchers.IO) {
+                _currentSelectedPersonId.postValue(bloodPressureDataSource.getFirstPersonId())
+                Log.i(
+                    "MainActivity",
+                    "try block called, isEmptyDatabase value: ${isEmptyDatabase.value}"
+                )
+            }
+        } catch (e: NullPointerException) {
+            _isEmptyDatabase.value = true
+            Log.i(
+                "MainActivity",
+                "catch block called, isEmptyDatabase value: ${isEmptyDatabase.value}"
+            )
         }
-        job.join()
-        _currentSelectedPersonId.postValue(temp)
+    }
+
+    fun doneNavigating() {
+        _isEmptyDatabase.value = false
     }
 
     /**
@@ -65,29 +84,32 @@ class ViewModel(application: Application) : AndroidViewModel(application) {
      * variable so that the variable will not be null
      */
     fun initBloodPressureAllDataOnePerson() {
-        job1 = viewModelScope.launch(Dispatchers.IO) {
-            currentSelectedPersonId.value?.let {
-                temp1 = bloodPressureDataSource.getAllForPerson(it)
+        try {
+            viewModelScope.launch(Dispatchers.IO) {
+                currentSelectedPersonId.value?.let {
+                    bloodPressureAllDataOnePerson = bloodPressureDataSource.getAllForPerson(it)
+                }
             }
-        }
-        viewModelScope.launch(Dispatchers.Main) {
-            job1.join()
-            bloodPressureAllDataOnePerson = temp1
+        } catch (e: UninitializedPropertyAccessException) {
+            _isEmptyDatabase.value = true
+            Log.i(
+                "MainActivity",
+                "catch block called navigate to bp, isEmptyDatabase value: ${isEmptyDatabase.value}"
+            )
+
         }
     }
 
+    /**
+     * Change the value of Blood Pressure all data for one person
+     */
     fun setBloodPressureAllDataOnePerson() {
-        job2 = viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch(Dispatchers.IO) {
             currentSelectedPersonId.value?.let {
-                temp2 = bloodPressureDataSource.getAllForPerson(it)
+                bloodPressureAllDataOnePerson = bloodPressureDataSource.getAllForPerson(it)
             }
         }
-        viewModelScope.launch(Dispatchers.Main) {
-            job2.join()
-            bloodPressureAllDataOnePerson = temp2
-        }
     }
-
 
 
     /**
