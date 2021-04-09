@@ -62,6 +62,7 @@ class AddDataFragment : Fragment(), DatePickerDialog.OnDateSetListener,
     val TAG = "AddDataFragment"
 
     private lateinit var binding: FragmentAddDataBinding
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -246,6 +247,7 @@ class AddDataFragment : Fragment(), DatePickerDialog.OnDateSetListener,
             personId = chosenPersonId,
             glucose = binding.etBox1.text.toString()
         )
+
         lifecycleScope.launch {
             withContext(Dispatchers.IO) { glucoseDataSource.insert(dataToBeSaved) }
         }

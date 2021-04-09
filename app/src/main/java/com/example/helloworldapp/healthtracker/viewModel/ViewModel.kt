@@ -51,6 +51,57 @@ class ViewModel(application: Application) : AndroidViewModel(application) {
     val navigateToAddPerson: LiveData<Boolean>
         get() = _navigateToAddPerson
 
+    lateinit var glucoseAllDataDesc: LiveData<List<Glucose>>
+    lateinit var glucoseAllDataAsc: LiveData<List<Glucose>>
+
+    /**
+     * changes allDataDesc to be a list of data of one person sorted by descending date
+     */
+    fun glucoseOrderByDateDesc() {
+        glucoseAllDataDesc = glucoseDataSource.getAllForPersonSortDateDesc(_currentSelectedPersonId.value!!)
+    }
+
+    /**
+     * changes allDataAsc to be a list of data of one person sorted by ascending date
+     */
+    fun glucoseOrderByDateAsc() {
+        glucoseAllDataAsc = glucoseDataSource.getAllForPersonSortDateAsc(_currentSelectedPersonId.value!!)
+    }
+
+    lateinit var bloodPressureAllDataDesc: LiveData<List<BloodPressure>>
+    lateinit var bloodPressureAllDataAsc: LiveData<List<BloodPressure>>
+
+    /**
+     * changes allDataDesc to be a list of data of one person sorted by descending date
+     */
+    fun bloodPressureOrderByDateDesc() {
+        bloodPressureAllDataDesc = bloodPressureDataSource.getAllForPersonSortDateDesc(_currentSelectedPersonId.value!!)
+    }
+
+    /**
+     * changes allDataAsc to be a list of data of one person sorted by ascending date
+     */
+    fun bloodPressureOrderByDateAsc() {
+        bloodPressureAllDataAsc = bloodPressureDataSource.getAllForPersonSortDateAsc(_currentSelectedPersonId.value!!)
+    }
+
+    lateinit var heightWeightAllDataDesc: LiveData<List<HeightWeight>>
+    lateinit var heightWeightAllDataAsc: LiveData<List<HeightWeight>>
+
+    /**
+     * changes allDataDesc to be a list of data of one person sorted by descending date
+     */
+    fun heightWeightOrderByDateDesc() {
+        heightWeightAllDataDesc = heightWeightDataSource.getAllForPersonSortDateDesc(_currentSelectedPersonId.value!!)
+    }
+
+    /**
+     * changes allDataAsc to be a list of data of one person sorted by ascending date
+     */
+    fun heightWeightOrderByDateAsc() {
+        heightWeightAllDataAsc = heightWeightDataSource.getAllForPersonSortDateAsc(_currentSelectedPersonId.value!!)
+    }
+
     /**
      * Call this function when the user does not need to navigate to the add person fragment
      * anymore (because there is already data in the database, so currentSelectedPersonId will

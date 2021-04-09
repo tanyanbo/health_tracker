@@ -1,10 +1,8 @@
 package com.example.helloworldapp.healthtracker.heightWeight
 
 import android.os.Bundle
+import android.view.*
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
@@ -15,6 +13,8 @@ import com.example.helloworldapp.healthtracker.bloodPressure.BloodPressureRecycl
 import com.example.helloworldapp.healthtracker.database.bloodPressure.BloodPressure
 import com.example.helloworldapp.healthtracker.database.heightWeight.HeightWeight
 import com.example.helloworldapp.healthtracker.databinding.FragmentHeightWeightBinding
+import com.example.helloworldapp.healthtracker.dialogs.DeleteAllGlucose
+import com.example.helloworldapp.healthtracker.dialogs.DeleteAllHeightWeight
 import com.example.helloworldapp.healthtracker.dialogs.DeleteOneRowDialogHeightWeight
 import com.example.helloworldapp.healthtracker.viewModel.ViewModel
 import kotlinx.coroutines.launch
@@ -23,6 +23,8 @@ import kotlinx.coroutines.launch
 class HeightWeightFragment : Fragment() {
 
     private lateinit var adapter: HeightWeightRecyclerViewAdapter
+    private lateinit var viewModelFactory: ViewModel.Factory
+    private lateinit var viewModel: ViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -31,8 +33,8 @@ class HeightWeightFragment : Fragment() {
         val binding: FragmentHeightWeightBinding =
             DataBindingUtil.inflate(inflater, R.layout.fragment_height_weight, container, false)
 
-        val viewModelFactory = ViewModel.Factory(requireActivity().application)
-        val viewModel =
+        viewModelFactory = ViewModel.Factory(requireActivity().application)
+        viewModel =
             ViewModelProvider(requireActivity(), viewModelFactory).get(ViewModel::class.java)
 
         adapter = HeightWeightRecyclerViewAdapter(object :
@@ -53,6 +55,8 @@ class HeightWeightFragment : Fragment() {
                 adapter.submitList(it)
             })
         }
+
+        setHasOptionsMenu(true)
         return binding.root
     }
 
@@ -62,6 +66,38 @@ class HeightWeightFragment : Fragment() {
     private fun openDeleteOneRowDialog(hw: HeightWeight) {
         val dialog = DeleteOneRowDialogHeightWeight(hw)
         dialog.show(parentFragmentManager, "dialog")
+    }
+
+    private fun openDeleteAllDialog() {
+        DeleteAllHeightWeight(R.string.delete_dialog_message).show(parentFragmentManager, "dialog")
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater.inflate(R.menu.overflow_menu, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.delete_all_menu_item -> openDeleteAllDialog()
+
+            // shows the data sorted by descending date
+            R.id.sortDateDescending -> {
+                viewModel.heightWeightOrderByDateDesc()
+                viewModel.heightWeightAllDataDesc.observe(viewLifecycleOwner, Observer {
+                    adapter.submitList(it)
+                })
+            }
+
+            // shows the data sorted by ascending date
+            R.id.sortDateAscending -> {
+                viewModel.heightWeightOrderByDateAsc()
+                viewModel.heightWeightAllDataAsc.observe(viewLifecycleOwner, Observer {
+                    adapter.submitList(it)
+                })
+            }
+        }
+        return super.onOptionsItemSelected(item)
     }
 
 }

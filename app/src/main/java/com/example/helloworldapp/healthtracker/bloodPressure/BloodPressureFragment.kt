@@ -2,10 +2,8 @@ package com.example.helloworldapp.healthtracker.bloodPressure
 
 import android.os.Bundle
 import android.util.Log
+import android.view.*
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
@@ -16,6 +14,8 @@ import com.example.helloworldapp.healthtracker.addPerson.AddPersonFragment
 import com.example.helloworldapp.healthtracker.database.bloodPressure.BloodPressure
 import com.example.helloworldapp.healthtracker.databinding.FragmentBloodPressureBinding
 import com.example.helloworldapp.healthtracker.databinding.FragmentHeightWeightBinding
+import com.example.helloworldapp.healthtracker.dialogs.DeleteAllBloodPressure
+import com.example.helloworldapp.healthtracker.dialogs.DeleteAllGlucose
 import com.example.helloworldapp.healthtracker.dialogs.DeleteOneRowDialogBloodPressure
 import com.example.helloworldapp.healthtracker.viewModel.ViewModel
 import kotlinx.coroutines.launch
@@ -24,6 +24,8 @@ class BloodPressureFragment : Fragment() {
 
     private lateinit var binding: FragmentBloodPressureBinding
     private lateinit var adapter: BloodPressureRecyclerViewAdapter
+    private lateinit var viewModelFactory: ViewModel.Factory
+    private lateinit var viewModel: ViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -33,8 +35,8 @@ class BloodPressureFragment : Fragment() {
         binding =
             DataBindingUtil.inflate(inflater, R.layout.fragment_blood_pressure, container, false)
 
-        val viewModelFactory = ViewModel.Factory(requireActivity().application)
-        val viewModel =
+        viewModelFactory = ViewModel.Factory(requireActivity().application)
+        viewModel =
             ViewModelProvider(requireActivity(), viewModelFactory).get(ViewModel::class.java)
 
         adapter = BloodPressureRecyclerViewAdapter(object :
@@ -64,6 +66,7 @@ class BloodPressureFragment : Fragment() {
             }
         }
 
+        setHasOptionsMenu(true)
 
         return binding.root
     }
@@ -74,6 +77,38 @@ class BloodPressureFragment : Fragment() {
     private fun openDeleteOneRowDialog(bp: BloodPressure) {
         val dialog = DeleteOneRowDialogBloodPressure(bp)
         dialog.show(parentFragmentManager, "dialog")
+    }
+
+    private fun openDeleteAllDialog() {
+        DeleteAllBloodPressure(R.string.delete_dialog_message).show(parentFragmentManager, "dialog")
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater.inflate(R.menu.overflow_menu, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.delete_all_menu_item -> openDeleteAllDialog()
+
+            // shows the data sorted by descending date
+            R.id.sortDateDescending -> {
+                viewModel.bloodPressureOrderByDateDesc()
+                viewModel.bloodPressureAllDataDesc.observe(viewLifecycleOwner, Observer {
+                    adapter.submitList(it)
+                })
+            }
+
+            // shows the data sorted by ascending date
+            R.id.sortDateAscending -> {
+                viewModel.bloodPressureOrderByDateAsc()
+                viewModel.bloodPressureAllDataAsc.observe(viewLifecycleOwner, Observer {
+                    adapter.submitList(it)
+                })
+            }
+        }
+        return super.onOptionsItemSelected(item)
     }
 
 
