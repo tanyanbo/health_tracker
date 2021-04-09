@@ -57,20 +57,12 @@ class MainActivity : AppCompatActivity() {
         ).get(com.example.helloworldapp.healthtracker.viewModel.ViewModel::class.java)
 
         viewModel.initializePreviousFragment()
-
-        viewModel.isEmptyDatabase.observe(this, Observer {
-            if (it == true) {
-                navigateToFragment(addPersonFragment)
-                viewModel.doneNavigating()
-                Log.i("MainActivity", "navigated to add fragment from main activity")
-            }
-        })
         val job = lifecycleScope.launch(Dispatchers.Default) {
             runBlocking {
                 viewModel.initializeCurrentSelectedPersonId()
             }
             Log.i(TAG, "finished setting current selected person ID")
-            Log.i(TAG, "In the job block ${viewModel.currentSelectedPersonId.value}")
+            Log.i(TAG, "${viewModel.currentSelectedPersonId.value}")
 
         }
 
@@ -78,7 +70,7 @@ class MainActivity : AppCompatActivity() {
         lifecycleScope.launch {
             job.join()
             viewModel.currentSelectedPersonId.observe(this@MainActivity, Observer {
-                viewModel.setBloodPressureAllDataOnePerson()
+                Log.i(TAG, "$it")
             })
             viewModel.initBloodPressureAllDataOnePerson()
             navigateToFragment(bloodPressureFragment)

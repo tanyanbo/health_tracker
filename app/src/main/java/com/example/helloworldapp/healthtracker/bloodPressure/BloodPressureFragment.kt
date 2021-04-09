@@ -1,7 +1,6 @@
 package com.example.helloworldapp.healthtracker.bloodPressure
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -11,7 +10,6 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.helloworldapp.healthtracker.R
-import com.example.helloworldapp.healthtracker.addPerson.AddPersonFragment
 import com.example.helloworldapp.healthtracker.database.bloodPressure.BloodPressure
 import com.example.helloworldapp.healthtracker.databinding.FragmentBloodPressureBinding
 import com.example.helloworldapp.healthtracker.databinding.FragmentHeightWeightBinding
@@ -42,18 +40,9 @@ class BloodPressureFragment : Fragment() {
         binding.bloodPressureRecyclerView.adapter = adapter
 
 
-        try {
-            viewModel.bloodPressureAllDataOnePerson.observe(viewLifecycleOwner, Observer {
-                adapter.submitList(it)
-            })
-        } catch (e: UninitializedPropertyAccessException) {
-            parentFragmentManager.beginTransaction().apply {
-                replace(R.id.frameLayout, AddPersonFragment())
-                addToBackStack(null)
-                commit()
-            }
-            Log.i("MainActivity", "navigated to add fragment from bp fragment")
-        }
+        viewModel.bloodPressureAllDataOnePerson.observe(viewLifecycleOwner, Observer {
+            adapter.submitList(it)
+        })
         return binding.root
     }
 
