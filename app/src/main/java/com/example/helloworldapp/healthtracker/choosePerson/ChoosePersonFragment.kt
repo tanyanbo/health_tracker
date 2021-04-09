@@ -5,6 +5,7 @@ import android.view.*
 import androidx.fragment.app.Fragment
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -34,6 +35,8 @@ class ChoosePersonFragment : Fragment() {
         val viewModelFactory = ViewModel.Factory(requireActivity().application)
         val viewModel =
             ViewModelProvider(requireActivity(), viewModelFactory).get(ViewModel::class.java)
+
+
 
 
         lifecycleScope.launch {
@@ -72,10 +75,11 @@ class ChoosePersonFragment : Fragment() {
 
         binding.buttonGoToData.setOnClickListener {
             viewModel.changeCurrentSelectedPerson(chosenPersonId)
-            Snackbar.make(
-                binding.constraintLayout,
+            requireActivity().title = getString(R.string.title, chosenPersonId)
+            Toast.makeText(
+                requireContext(),
                 getString(R.string.person_changed_snackbar_message, "$chosenPersonId"),
-                Snackbar.LENGTH_LONG
+                Toast.LENGTH_LONG
             ).show()
         }
 

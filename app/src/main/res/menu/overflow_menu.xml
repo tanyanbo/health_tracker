@@ -5,7 +5,7 @@
         android:id="@+id/sort"
         android:title="Sort"
         android:icon="@drawable/ic_baseline_sort_24"
-        app:showAsAction="ifRoom">
+        app:showAsAction="always">
         <menu>
             <item
                 android:id="@+id/sortDateAscending"
@@ -22,6 +22,6 @@
     <item
         android:id="@+id/delete_all_menu_item"
         android:title="@string/delete_all"
-        app:showAsAction="ifRoom"
+        app:showAsAction="always"
         android:icon="@drawable/ic_baseline_delete_24"/>
 </menu>
