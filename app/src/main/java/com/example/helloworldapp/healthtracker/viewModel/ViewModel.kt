@@ -5,11 +5,9 @@ import android.util.Log
 import androidx.lifecycle.*
 import androidx.lifecycle.ViewModel
 import com.example.helloworldapp.healthtracker.R
+import com.example.helloworldapp.healthtracker.database.bloodPressure.BloodPressure
 import com.example.helloworldapp.healthtracker.database.bloodPressure.BloodPressureDatabase
-import kotlinx.coroutines.Deferred
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 
 class ViewModel(application: Application): AndroidViewModel(application) {
 
@@ -39,15 +37,38 @@ class ViewModel(application: Application): AndroidViewModel(application) {
     val currentSelectedPersonId: LiveData<String>
         get() = _currentSelectedPersonId
 
+    // The variable that holds all the blood pressure data for one person
+
+
+
+    lateinit var temp: String
+    lateinit var job: Job
+    lateinit var job1: Job
     /**
      * Initializes the current selected person's Id to the first row of the
      * blood pressure database
      */
     fun initializeCurrentSelectedPersonId() {
-        viewModelScope.launch(Dispatchers.IO) {
-            _currentSelectedPersonId.value = bloodPressureDataSource.getFirstPersonId()
+        job = viewModelScope.launch(Dispatchers.IO) {
+            temp = bloodPressureDataSource.getFirstPersonId()
+        }
+        viewModelScope.launch(Dispatchers.Main) {
+            job.join()
+            _currentSelectedPersonId.value = temp
         }
     }
+
+    lateinit var bloodPressureDataOnePerson: LiveData<List<BloodPressure>>
+
+    fun initializeData() {
+        job1 = viewModelScope.launch(Dispatchers.IO) {
+
+            job.join()
+            bloodPressureDataOnePerson =
+                bloodPressureDataSource.getAllForPerson(_currentSelectedPersonId.value!!)
+        }
+    }
+
 
     /**
      * Changes the bottom app bar from visible to invisible and vice versa
