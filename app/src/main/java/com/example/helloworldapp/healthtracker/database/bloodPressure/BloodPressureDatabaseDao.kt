@@ -28,7 +28,7 @@ interface BloodPressureDatabaseDao {
     /**
      * Delete all rows
      */
-    @Query("DELETE FROM blood_pressure_database")
+    @Query("DELETE FROM blood_pressure_database WHERE isShown = 1")
     fun deleteAll()
 
 

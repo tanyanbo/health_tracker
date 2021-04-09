@@ -29,7 +29,7 @@ interface HeightWeightDatabaseDao {
     /**
      * Delete all rows
      */
-    @Query("DELETE FROM height_weight_database")
+    @Query("DELETE FROM height_weight_database WHERE isShown = 1")
     fun deleteAll()
 
 

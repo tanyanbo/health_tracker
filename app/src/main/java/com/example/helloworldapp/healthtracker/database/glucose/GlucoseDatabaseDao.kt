@@ -29,7 +29,7 @@ interface GlucoseDatabaseDao {
     /**
      * Delete all rows
      */
-    @Query("DELETE FROM glucose_database")
+    @Query("DELETE FROM glucose_database WHERE isShown = 1")
     fun deleteAll()
 
 
