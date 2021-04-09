@@ -57,7 +57,8 @@ class GlucoseRecyclerViewAdapter(val listener: OnItemClickListener) :
             delIcon.setOnClickListener {
                 val bp = getItem(adapterPosition)
                 if (adapterPosition != RecyclerView.NO_POSITION) {
-                    listener.onItemClick(bp)
+                    listener.onItemClick(bp, adapterPosition)
+
                 }
             }
         }
@@ -88,7 +89,7 @@ class GlucoseRecyclerViewAdapter(val listener: OnItemClickListener) :
      *  for the delete icon in each row of the Recycler view
      */
     interface OnItemClickListener {
-        fun onItemClick(g: Glucose)
+        fun onItemClick(g: Glucose, adapterPosition: Int)
     }
 }
 
