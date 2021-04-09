@@ -168,7 +168,7 @@ class ViewModel(application: Application) : AndroidViewModel(application) {
 
     /**
      * Changes the current selected person
-     * @param personId of the current selected person
+     * @param personId person_id of the current selected person
      */
     fun changeCurrentSelectedPerson(personId: String) {
         _currentSelectedPersonId.value = personId

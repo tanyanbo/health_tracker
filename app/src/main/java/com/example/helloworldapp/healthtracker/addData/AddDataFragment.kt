@@ -230,8 +230,23 @@ class AddDataFragment : Fragment(), DatePickerDialog.OnDateSetListener,
             height = binding.etBox1.text.toString(),
             weight = binding.etBox2.text.toString()
         )
-        lifecycleScope.launch {
-            withContext(Dispatchers.IO) { heightWeightDataSource.insert(dataToBeSaved) }
+        if (binding.etDate.hint == getString(R.string.enter_date)) {
+            lifecycleScope.launch {
+                withContext(Dispatchers.IO) { heightWeightDataSource.insert(dataToBeSaved) }
+            }
+        } else {
+            val chosenDateTime = Timestamp.valueOf("$savedYear-${savedMonth+1}-$savedDay $savedHour:$savedMinute:00")
+            val dataToBeSavedWithDate = HeightWeight(
+                personId = chosenPersonId,
+                height = binding.etBox1.text.toString(),
+                weight = binding.etBox2.text.toString(),
+                date = DateFormat.getDateInstance().format(chosenDateTime.time),
+                time = chosenDateTime.time
+            )
+
+            lifecycleScope.launch {
+                withContext(Dispatchers.IO) { heightWeightDataSource.insert(dataToBeSavedWithDate) }
+            }
         }
 
         parentFragmentManager.beginTransaction().apply {
@@ -284,8 +299,24 @@ class AddDataFragment : Fragment(), DatePickerDialog.OnDateSetListener,
             lowBP = binding.etBox2.text.toString(),
             heartRate = binding.etBox3.text.toString()
         )
-        lifecycleScope.launch {
-            withContext(Dispatchers.IO) { bloodPressureDataSource.insert(dataToBeSaved) }
+        if (binding.etDate.hint == getString(R.string.enter_date)) {
+            lifecycleScope.launch {
+                withContext(Dispatchers.IO) { bloodPressureDataSource.insert(dataToBeSaved) }
+            }
+        } else {
+            val chosenDateTime = Timestamp.valueOf("$savedYear-${savedMonth+1}-$savedDay $savedHour:$savedMinute:00")
+            val dataToBeSavedWithDate = BloodPressure(
+                personId = chosenPersonId,
+                highBP = binding.etBox1.text.toString(),
+                lowBP = binding.etBox2.text.toString(),
+                heartRate = binding.etBox3.text.toString(),
+                date = DateFormat.getDateInstance().format(chosenDateTime.time),
+                time = chosenDateTime.time
+            )
+
+            lifecycleScope.launch {
+                withContext(Dispatchers.IO) { bloodPressureDataSource.insert(dataToBeSavedWithDate) }
+            }
         }
 
         parentFragmentManager.beginTransaction().apply {
