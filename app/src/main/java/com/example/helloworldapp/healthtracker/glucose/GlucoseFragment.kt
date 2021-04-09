@@ -42,7 +42,6 @@ class GlucoseFragment : Fragment() {
 
         viewModel.currentSelectedPersonId.observe(viewLifecycleOwner, Observer {
             chosenPersonId = it
-            requireActivity().title = getString(R.string.title, it)
         })
 
         adapter = GlucoseRecyclerViewAdapter(object :

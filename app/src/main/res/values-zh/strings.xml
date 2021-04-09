@@ -51,5 +51,4 @@
     <string name="before_food_checkbox_message">餐前</string>
     <string name="delete_person">确定要删除“%1$s”?</string>
     <string name="after_food_checkbox_message">餐后</string>
-    <string name="title">正在查看“%1$s”的数据</string>
 </resources>

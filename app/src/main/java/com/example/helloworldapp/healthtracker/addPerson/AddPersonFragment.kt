@@ -66,7 +66,6 @@ class AddPersonFragment : Fragment() {
         binding.buttonSavePerson.setOnClickListener {
             viewModel.changeAppBarVisibility(true)
             viewModel.changeCurrentSelectedPerson(binding.etName.text.toString())
-            requireActivity().title = getString(R.string.title, binding.etName.text.toString())
             val tempBp = BloodPressure(personId = binding.etName.text.toString(), isShown = false)
             val tempGlucose = Glucose(personId = binding.etName.text.toString(), isShown = false)
             val tempHeightWeight =

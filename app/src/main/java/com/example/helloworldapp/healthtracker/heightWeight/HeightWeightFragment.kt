@@ -40,7 +40,6 @@ class HeightWeightFragment : Fragment() {
 
         viewModel.currentSelectedPersonId.observe(viewLifecycleOwner, Observer {
             chosenPersonId = it
-            requireActivity().title = getString(R.string.title, it)
         })
 
         adapter = HeightWeightRecyclerViewAdapter(object :

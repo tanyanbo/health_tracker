@@ -49,7 +49,6 @@ class BloodPressureFragment : Fragment() {
 
         viewModel.currentSelectedPersonId.observe(viewLifecycleOwner, Observer {
             chosenPersonId = it
-            requireActivity().title = getString(R.string.title, it)
         })
 
         binding.bloodPressureRecyclerView.adapter = adapter
