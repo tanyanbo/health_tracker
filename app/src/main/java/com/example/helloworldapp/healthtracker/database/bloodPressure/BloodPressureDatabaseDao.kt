@@ -26,10 +26,13 @@ interface BloodPressureDatabaseDao {
     fun update(bpData: BloodPressure)
 
     /**
-     * Delete all rows
+     * Delete all rows for one person in one database except the placeholder
+     * row
+     * @param personId The person_id of the person to delete
      */
-    @Query("DELETE FROM blood_pressure_database WHERE isShown = 1")
-    fun deleteAll()
+    @Query("DELETE FROM blood_pressure_database WHERE isShown = 1 AND person_id = :personId")
+    fun deleteAllForPerson(personId: String)
+
 
 
     @Query("SELECT * from blood_pressure_database WHERE id = :key")

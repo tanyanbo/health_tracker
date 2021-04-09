@@ -10,7 +10,7 @@ import com.example.helloworldapp.healthtracker.database.bloodPressure.BloodPress
 import com.example.helloworldapp.healthtracker.database.glucose.GlucoseDatabase
 import kotlinx.coroutines.*
 
-class DeleteAllGlucose(private val deleteMessageStringResource: Int): AppCompatDialogFragment() {
+class DeleteAllGlucose(private val deleteMessageStringResource: Int, val personId: String): AppCompatDialogFragment() {
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val builder = AlertDialog.Builder(requireActivity())
@@ -31,7 +31,7 @@ class DeleteAllGlucose(private val deleteMessageStringResource: Int): AppCompatD
 
         uiScope.launch {
             withContext(Dispatchers.IO) {
-                datasource.deleteAll()
+                datasource.deleteAllForPerson(personId)
             }
         }
     }

@@ -27,6 +27,7 @@ class GlucoseFragment : Fragment() {
     private lateinit var adapter: GlucoseRecyclerViewAdapter
     private lateinit var viewModelFactory: ViewModel.Factory
     private lateinit var viewModel: ViewModel
+    private lateinit var chosenPersonId: String
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -38,6 +39,10 @@ class GlucoseFragment : Fragment() {
         viewModelFactory = ViewModel.Factory(requireActivity().application)
         viewModel =
             ViewModelProvider(requireActivity(), viewModelFactory).get(ViewModel::class.java)
+
+        viewModel.currentSelectedPersonId.observe(viewLifecycleOwner, Observer {
+            chosenPersonId = it
+        })
 
         adapter = GlucoseRecyclerViewAdapter(object :
             GlucoseRecyclerViewAdapter.OnItemClickListener {
@@ -74,7 +79,7 @@ class GlucoseFragment : Fragment() {
     }
 
     private fun openDeleteAllDialog() {
-        DeleteAllGlucose(R.string.delete_dialog_message).show(parentFragmentManager, "dialog")
+        DeleteAllGlucose(R.string.delete_dialog_message, chosenPersonId).show(parentFragmentManager, "dialog")
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

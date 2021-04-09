@@ -8,9 +8,16 @@ import androidx.appcompat.app.AppCompatDialogFragment
 import com.example.helloworldapp.healthtracker.R
 import com.example.helloworldapp.healthtracker.database.bloodPressure.BloodPressureDatabase
 import com.example.helloworldapp.healthtracker.database.glucose.GlucoseDatabase
+import com.example.helloworldapp.healthtracker.database.heightWeight.HeightWeightDatabase
 import kotlinx.coroutines.*
 
-class DeleteAllBloodPressure(private val deleteMessageStringResource: Int, val personId: String): AppCompatDialogFragment() {
+
+/**
+ * Dialog class to delete one person
+ * @param deleteMessageStringResource The string resource of the message to show
+ * @param personId The person_id of the person to delete
+ */
+class DeleteOnePerson(private val deleteMessageStringResource: Int, val personId: String): AppCompatDialogFragment() {
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val builder = AlertDialog.Builder(requireActivity())
@@ -27,11 +34,15 @@ class DeleteAllBloodPressure(private val deleteMessageStringResource: Int, val p
         val viewJob = Job()
         val uiScope = CoroutineScope(Dispatchers.Main + viewJob)
         val application = requireActivity().applicationContext
-        val datasource = BloodPressureDatabase.getInstance(application).bloodPressureDatabaseDao
+        val datasourceHeightWeight = HeightWeightDatabase.getInstance(application).heightWeightDatabaseDao
+        val datasourceBloodPressure = BloodPressureDatabase.getInstance(application).bloodPressureDatabaseDao
+        val datasourceGlucose = GlucoseDatabase.getInstance(application).glucoseDatabaseDao
 
         uiScope.launch {
             withContext(Dispatchers.IO) {
-                datasource.deleteAllForPerson(personId)
+                datasourceHeightWeight.deletePerson(personId)
+                datasourceBloodPressure.deletePerson(personId)
+                datasourceGlucose.deletePerson(personId)
             }
         }
     }

@@ -33,6 +33,7 @@ import com.example.helloworldapp.healthtracker.databinding.FragmentAddDataBindin
 import com.example.helloworldapp.healthtracker.glucose.GlucoseFragment
 import com.example.helloworldapp.healthtracker.heightWeight.HeightWeightFragment
 import com.example.helloworldapp.healthtracker.viewModel.ViewModel
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -145,6 +146,7 @@ class AddDataFragment : Fragment(), DatePickerDialog.OnDateSetListener,
                     binding.etBox2.visibility = View.GONE
                     binding.etBox3.visibility = View.GONE
                     binding.beforeFood.visibility = View.VISIBLE
+                    binding.afterFood.visibility = View.VISIBLE
                     binding.buttonSaveData.setOnClickListener {
                         onSaveButtonClickedGlucose()
                     }
@@ -233,6 +235,11 @@ class AddDataFragment : Fragment(), DatePickerDialog.OnDateSetListener,
             height = binding.etBox1.text.toString(),
             weight = binding.etBox2.text.toString()
         )
+
+        // If the hint of the date edit text is the original hint, this means that the user has
+        // either not checked the customize date switch or checked the switch but did not enter
+        // a date, in this case we would just use the current time and date. If the user picked
+        // a date and time then we would use that date and time
         if (binding.etDate.hint == getString(R.string.enter_date)) {
             lifecycleScope.launch {
                 withContext(Dispatchers.IO) { heightWeightDataSource.insert(dataToBeSaved) }
@@ -268,9 +275,11 @@ class AddDataFragment : Fragment(), DatePickerDialog.OnDateSetListener,
         val dataToBeSaved = Glucose(
             personId = chosenPersonId,
             glucose = binding.etBox1.text.toString(),
-            beforeAfterFood = if (binding.beforeFood.isChecked) getString(R.string.before_food) else getString(
-                R.string.after_food
-            )
+            beforeAfterFood = when {
+                binding.beforeFood.isChecked && !binding.afterFood.isChecked -> getString(R.string.before_food)
+                binding.afterFood.isChecked && !binding.beforeFood.isChecked -> getString(R.string.after_food)
+                else -> getString(R.string.before_food)
+            }
         )
 
         if (binding.etDate.hint == getString(R.string.enter_date)) {

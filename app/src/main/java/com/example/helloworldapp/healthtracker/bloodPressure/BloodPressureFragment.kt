@@ -26,6 +26,7 @@ class BloodPressureFragment : Fragment() {
     private lateinit var adapter: BloodPressureRecyclerViewAdapter
     private lateinit var viewModelFactory: ViewModel.Factory
     private lateinit var viewModel: ViewModel
+    private lateinit var chosenPersonId: String
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -44,6 +45,10 @@ class BloodPressureFragment : Fragment() {
             override fun onItemClick(bp: BloodPressure) {
                 openDeleteOneRowDialog(bp)
             }
+        })
+
+        viewModel.currentSelectedPersonId.observe(viewLifecycleOwner, Observer {
+            chosenPersonId = it
         })
 
         binding.bloodPressureRecyclerView.adapter = adapter
@@ -80,7 +85,7 @@ class BloodPressureFragment : Fragment() {
     }
 
     private fun openDeleteAllDialog() {
-        DeleteAllBloodPressure(R.string.delete_dialog_message).show(parentFragmentManager, "dialog")
+        DeleteAllBloodPressure(R.string.delete_dialog_message, chosenPersonId).show(parentFragmentManager, "dialog")
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

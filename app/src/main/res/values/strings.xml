@@ -49,4 +49,6 @@
     <string name="before_food">Before</string>
     <string name="after_food">After</string>
     <string name="before_food_checkbox_message">Before food</string>
+    <string name="delete_person">Are you sure you want to delete "%1$s"?</string>
+    <string name="after_food_checkbox_message">After food</string>
 </resources>

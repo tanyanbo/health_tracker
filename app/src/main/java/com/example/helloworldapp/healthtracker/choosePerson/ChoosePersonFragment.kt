@@ -1,10 +1,8 @@
 package com.example.helloworldapp.healthtracker.choosePerson
 
 import android.os.Bundle
+import android.view.*
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.databinding.DataBindingUtil
@@ -81,7 +79,21 @@ class ChoosePersonFragment : Fragment() {
             ).show()
         }
 
+        setHasOptionsMenu(true)
+
         return binding.root
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater.inflate(R.menu.overflow_menu_choose_person, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == R.id.deleteAllPeople) {
+
+        }
+        return super.onOptionsItemSelected(item)
     }
 }
 

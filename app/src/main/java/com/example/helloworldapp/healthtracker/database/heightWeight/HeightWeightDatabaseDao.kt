@@ -27,10 +27,12 @@ interface HeightWeightDatabaseDao {
     fun update(heightWeightData: HeightWeight)
 
     /**
-     * Delete all rows
+     * Delete all rows for one person in one database except the placeholder
+     * row
+     * @param personId The person_id of the person to delete
      */
-    @Query("DELETE FROM height_weight_database WHERE isShown = 1")
-    fun deleteAll()
+    @Query("DELETE FROM height_weight_database WHERE isShown = 1 AND person_id = :personId")
+    fun deleteAllForPerson(personId: String)
 
 
     @Query("SELECT * from height_weight_database WHERE id = :key")

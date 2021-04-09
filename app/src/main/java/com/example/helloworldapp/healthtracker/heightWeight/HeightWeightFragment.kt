@@ -25,6 +25,7 @@ class HeightWeightFragment : Fragment() {
     private lateinit var adapter: HeightWeightRecyclerViewAdapter
     private lateinit var viewModelFactory: ViewModel.Factory
     private lateinit var viewModel: ViewModel
+    private lateinit var chosenPersonId: String
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -36,6 +37,10 @@ class HeightWeightFragment : Fragment() {
         viewModelFactory = ViewModel.Factory(requireActivity().application)
         viewModel =
             ViewModelProvider(requireActivity(), viewModelFactory).get(ViewModel::class.java)
+
+        viewModel.currentSelectedPersonId.observe(viewLifecycleOwner, Observer {
+            chosenPersonId = it
+        })
 
         adapter = HeightWeightRecyclerViewAdapter(object :
             HeightWeightRecyclerViewAdapter.OnItemClickListener {
@@ -69,7 +74,7 @@ class HeightWeightFragment : Fragment() {
     }
 
     private fun openDeleteAllDialog() {
-        DeleteAllHeightWeight(R.string.delete_dialog_message).show(parentFragmentManager, "dialog")
+        DeleteAllHeightWeight(R.string.delete_dialog_message, chosenPersonId).show(parentFragmentManager, "dialog")
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

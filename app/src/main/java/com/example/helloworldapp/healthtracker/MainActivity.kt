@@ -50,6 +50,8 @@ class MainActivity : AppCompatActivity() {
         choosePersonFragment = ChoosePersonFragment()
 
 
+
+
         val viewModelFactory =
             com.example.helloworldapp.healthtracker.viewModel.ViewModel.Factory(this.application)
         val viewModel = ViewModelProvider(

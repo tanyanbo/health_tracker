@@ -10,7 +10,7 @@ import com.example.helloworldapp.healthtracker.database.glucose.GlucoseDatabase
 import com.example.helloworldapp.healthtracker.database.heightWeight.HeightWeightDatabase
 import kotlinx.coroutines.*
 
-class DeleteAllHeightWeight(private val deleteMessageStringResource: Int): AppCompatDialogFragment() {
+class DeleteAllHeightWeight(private val deleteMessageStringResource: Int, val personId: String): AppCompatDialogFragment() {
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val builder = AlertDialog.Builder(requireActivity())
@@ -31,7 +31,7 @@ class DeleteAllHeightWeight(private val deleteMessageStringResource: Int): AppCo
 
         uiScope.launch {
             withContext(Dispatchers.IO) {
-                datasource.deleteAll()
+                datasource.deleteAllForPerson(personId)
             }
         }
     }
