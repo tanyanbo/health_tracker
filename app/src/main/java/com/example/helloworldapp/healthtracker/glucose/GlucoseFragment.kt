@@ -39,8 +39,8 @@ class GlucoseFragment : Fragment() {
 
         adapter = GlucoseRecyclerViewAdapter(object :
             GlucoseRecyclerViewAdapter.OnItemClickListener {
-            override fun onItemClick(g: Glucose, adapterPosition: Int) {
-                openDeleteOneRowDialog(g, adapter, adapterPosition)
+            override fun onItemClick(g: Glucose) {
+                openDeleteOneRowDialog(g)
             }
         })
 
@@ -64,12 +64,8 @@ class GlucoseFragment : Fragment() {
     /**
      * Confirmation dialog to ask the user if he wants to delete one row of data
      */
-    private fun openDeleteOneRowDialog(
-        g: Glucose,
-        adapter: GlucoseRecyclerViewAdapter,
-        adapterPosition: Int
-    ) {
-        val dialog = DeleteOneRowDialogGlucose(g, adapter, adapterPosition)
+    private fun openDeleteOneRowDialog(g: Glucose) {
+        val dialog = DeleteOneRowDialogGlucose(g)
         dialog.show(parentFragmentManager, "dialog")
     }
 

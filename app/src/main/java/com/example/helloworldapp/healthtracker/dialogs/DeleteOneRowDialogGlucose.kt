@@ -5,20 +5,14 @@ import android.app.Dialog
 import android.content.DialogInterface
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatDialogFragment
-import androidx.lifecycle.lifecycleScope
 import com.example.helloworldapp.healthtracker.R
 import com.example.helloworldapp.healthtracker.database.bloodPressure.BloodPressure
 import com.example.helloworldapp.healthtracker.database.bloodPressure.BloodPressureDatabase
 import com.example.helloworldapp.healthtracker.database.glucose.Glucose
 import com.example.helloworldapp.healthtracker.database.glucose.GlucoseDatabase
-import com.example.helloworldapp.healthtracker.glucose.GlucoseRecyclerViewAdapter
 import kotlinx.coroutines.*
 
-class DeleteOneRowDialogGlucose(
-    val g: Glucose,
-    val adapter: GlucoseRecyclerViewAdapter,
-    val adapterPosition: Int
-) : AppCompatDialogFragment() {
+class DeleteOneRowDialogGlucose(val g: Glucose): AppCompatDialogFragment() {
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val builder = AlertDialog.Builder(requireActivity())
@@ -38,11 +32,9 @@ class DeleteOneRowDialogGlucose(
         val datasource = GlucoseDatabase.getInstance(application).glucoseDatabaseDao
 
         uiScope.launch {
-            val job = lifecycleScope.launch(Dispatchers.IO) {
+            withContext(Dispatchers.IO) {
                 datasource.delete(g)
             }
-            job.join()
-            adapter.notifyItemRemoved(adapterPosition)
         }
     }
 }
