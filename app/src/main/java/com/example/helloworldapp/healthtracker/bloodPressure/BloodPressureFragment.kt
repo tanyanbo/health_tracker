@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.helloworldapp.healthtracker.R
 import com.example.helloworldapp.healthtracker.database.bloodPressure.BloodPressure
@@ -40,9 +39,7 @@ class BloodPressureFragment : Fragment() {
         binding.bloodPressureRecyclerView.adapter = adapter
 
 
-        viewModel.bloodPressureAllDataOnePerson.observe(viewLifecycleOwner, Observer {
-            adapter.submitList(it)
-        })
+
         return binding.root
     }
 
