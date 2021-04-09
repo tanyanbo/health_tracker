@@ -11,10 +11,12 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.example.helloworldapp.healthtracker.R
+import com.example.helloworldapp.healthtracker.database.bloodPressure.BloodPressure
 import com.example.helloworldapp.healthtracker.database.glucose.Glucose
 import com.example.helloworldapp.healthtracker.database.heightWeight.HeightWeight
 import com.example.helloworldapp.healthtracker.databinding.FragmentGlucoseBinding
 import com.example.helloworldapp.healthtracker.databinding.FragmentHeightWeightBinding
+import com.example.helloworldapp.healthtracker.dialogs.DeleteOneRowDialogGlucose
 import com.example.helloworldapp.healthtracker.heightWeight.HeightWeightRecyclerViewAdapter
 import com.example.helloworldapp.healthtracker.viewModel.ViewModel
 import kotlinx.coroutines.launch
@@ -38,7 +40,7 @@ class GlucoseFragment : Fragment() {
         adapter = GlucoseRecyclerViewAdapter(object :
             GlucoseRecyclerViewAdapter.OnItemClickListener {
             override fun onItemClick(g: Glucose) {
-                Toast.makeText(requireContext(), "delete button tapped", Toast.LENGTH_SHORT).show()
+                openDeleteOneRowDialog(g)
             }
         })
 
@@ -56,6 +58,15 @@ class GlucoseFragment : Fragment() {
 
 
         return binding.root
+    }
+
+
+    /**
+     * Confirmation dialog to ask the user if he wants to delete one row of data
+     */
+    private fun openDeleteOneRowDialog(g: Glucose) {
+        val dialog = DeleteOneRowDialogGlucose(g)
+        dialog.show(parentFragmentManager, "dialog")
     }
 
 

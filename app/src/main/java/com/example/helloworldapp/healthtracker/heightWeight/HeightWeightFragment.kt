@@ -15,6 +15,7 @@ import com.example.helloworldapp.healthtracker.bloodPressure.BloodPressureRecycl
 import com.example.helloworldapp.healthtracker.database.bloodPressure.BloodPressure
 import com.example.helloworldapp.healthtracker.database.heightWeight.HeightWeight
 import com.example.helloworldapp.healthtracker.databinding.FragmentHeightWeightBinding
+import com.example.helloworldapp.healthtracker.dialogs.DeleteOneRowDialogHeightWeight
 import com.example.helloworldapp.healthtracker.viewModel.ViewModel
 import kotlinx.coroutines.launch
 
@@ -37,7 +38,7 @@ class HeightWeightFragment : Fragment() {
         adapter = HeightWeightRecyclerViewAdapter(object :
             HeightWeightRecyclerViewAdapter.OnItemClickListener {
             override fun onItemClick(hw: HeightWeight) {
-                Toast.makeText(requireContext(), "delete button tapped", Toast.LENGTH_SHORT).show()
+                openDeleteOneRowDialog(hw)
             }
         })
 
@@ -53,6 +54,14 @@ class HeightWeightFragment : Fragment() {
             })
         }
         return binding.root
+    }
+
+    /**
+     * Confirmation dialog to ask the user if he wants to delete one row of data
+     */
+    private fun openDeleteOneRowDialog(hw: HeightWeight) {
+        val dialog = DeleteOneRowDialogHeightWeight(hw)
+        dialog.show(parentFragmentManager, "dialog")
     }
 
 }

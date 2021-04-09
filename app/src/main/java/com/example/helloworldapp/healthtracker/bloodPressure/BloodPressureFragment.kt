@@ -16,6 +16,7 @@ import com.example.helloworldapp.healthtracker.addPerson.AddPersonFragment
 import com.example.helloworldapp.healthtracker.database.bloodPressure.BloodPressure
 import com.example.helloworldapp.healthtracker.databinding.FragmentBloodPressureBinding
 import com.example.helloworldapp.healthtracker.databinding.FragmentHeightWeightBinding
+import com.example.helloworldapp.healthtracker.dialogs.DeleteOneRowDialogBloodPressure
 import com.example.helloworldapp.healthtracker.viewModel.ViewModel
 import kotlinx.coroutines.launch
 
@@ -39,7 +40,7 @@ class BloodPressureFragment : Fragment() {
         adapter = BloodPressureRecyclerViewAdapter(object :
             BloodPressureRecyclerViewAdapter.OnItemClickListener {
             override fun onItemClick(bp: BloodPressure) {
-                Toast.makeText(requireContext(), "delete button tapped", Toast.LENGTH_SHORT).show()
+                openDeleteOneRowDialog(bp)
             }
         })
 
@@ -53,6 +54,7 @@ class BloodPressureFragment : Fragment() {
             try {
                 viewModel.bloodPressureAllDataOnePerson.observe(viewLifecycleOwner, Observer {
                     adapter.submitList(it)
+                    Log.i("Fragment", "list changed")
                 })
             } catch (e: UninitializedPropertyAccessException) {
                 parentFragmentManager.beginTransaction().apply {
@@ -64,6 +66,14 @@ class BloodPressureFragment : Fragment() {
 
 
         return binding.root
+    }
+
+    /**
+     * Confirmation dialog to ask the user if he wants to delete one row of data
+     */
+    private fun openDeleteOneRowDialog(bp: BloodPressure) {
+        val dialog = DeleteOneRowDialogBloodPressure(bp)
+        dialog.show(parentFragmentManager, "dialog")
     }
 
 
