@@ -5,20 +5,20 @@ import android.util.Log
 import androidx.lifecycle.*
 import androidx.lifecycle.ViewModel
 import com.example.helloworldapp.healthtracker.R
+import com.example.helloworldapp.healthtracker.database.bloodPressure.BloodPressure
 import com.example.helloworldapp.healthtracker.database.bloodPressure.BloodPressureDatabase
-import kotlinx.coroutines.Deferred
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
+import java.lang.NullPointerException
 
-class ViewModel(application: Application): AndroidViewModel(application) {
+class ViewModel(application: Application) : AndroidViewModel(application) {
 
     // variable to store which is the current fragment
     private val _previousFragment = MutableLiveData<Int>()
     val previousFragment: LiveData<Int>
         get() = _previousFragment
 
-    private val bloodPressureDataSource = BloodPressureDatabase.getInstance(application).bloodPressureDatabaseDao
+    private val bloodPressureDataSource =
+        BloodPressureDatabase.getInstance(application).bloodPressureDatabaseDao
 
     // The person list to show in the pick person spinner
     private lateinit var _personList: LiveData<List<String>>
@@ -39,14 +39,46 @@ class ViewModel(application: Application): AndroidViewModel(application) {
     val currentSelectedPersonId: LiveData<String>
         get() = _currentSelectedPersonId
 
+    // The variable that holds whether or not to navigate to the add person fragment
+    private val _navigateToAddPerson = MutableLiveData<Boolean>()
+    val navigateToAddPerson: LiveData<Boolean>
+        get() = _navigateToAddPerson
+
+    /**
+     * Call this function when the user does not need to navigate to the add person fragment
+     * anymore (because there is already data in the database, so currentSelectedPersonId will
+     * not be null)
+     */
+    fun doneNavigating() {
+        _navigateToAddPerson.value = false
+    }
+
+    lateinit var job: Job
+    lateinit var job2: Job
+    lateinit var bloodPressureAllDataOnePerson: LiveData<List<BloodPressure>>
+
     /**
      * Initializes the current selected person's Id to the first row of the
      * blood pressure database
      */
     fun initializeCurrentSelectedPersonId() {
-        viewModelScope.launch(Dispatchers.IO) {
-            _currentSelectedPersonId.value = bloodPressureDataSource.getFirstPersonId()
+        job = viewModelScope.launch(Dispatchers.IO) {
+            _currentSelectedPersonId.postValue(bloodPressureDataSource.getFirstPersonId())
         }
+    }
+
+    fun setAllData() {
+
+        job2 = viewModelScope.launch(Dispatchers.IO) {
+            try {
+                bloodPressureAllDataOnePerson =
+                    bloodPressureDataSource.getAllForPerson(_currentSelectedPersonId.value!!)
+            } catch (e: NullPointerException) {
+                _navigateToAddPerson.postValue(true)
+                Log.i("MainActivity", "catch null pointer exception block executed")
+            }
+        }
+
     }
 
     /**

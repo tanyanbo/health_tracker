@@ -57,10 +57,28 @@ class MainActivity : AppCompatActivity() {
             viewModelFactory
         ).get(com.example.helloworldapp.healthtracker.viewModel.ViewModel::class.java)
 
-        viewModel.initializePreviousFragment()
-        viewModel.initializeCurrentSelectedPersonId()
+        viewModel.navigateToAddPerson.observe(this, Observer {
+            Log.i(TAG, "navigateToAddPerson live data executed: $it")
+            if (it == true) {
+                navigateToFragment(addPersonFragment)
+                Log.i(TAG, "navigated to add person")
+                viewModel.doneNavigating()
+            }
+        })
 
-        navigateToFragment(bloodPressureFragment)
+        viewModel.initializePreviousFragment()
+
+        lifecycleScope.launch {
+            viewModel.initializeCurrentSelectedPersonId()
+            viewModel.job.join()
+            Log.i(TAG, "job 1 done")
+
+            viewModel.setAllData()
+            viewModel.job2.join()
+            Log.i(TAG, "job 2 done")
+            navigateToFragment(bloodPressureFragment)
+        }
+
 
         lifecycleScope.launch {
             withContext(Dispatchers.IO) {
@@ -140,6 +158,7 @@ class MainActivity : AppCompatActivity() {
             return@setOnNavigationItemSelectedListener true
         }
     }
+
 
     /**
      * Navigates to a fragment
