@@ -53,7 +53,7 @@ interface BloodPressureDatabaseDao {
      * in the show data fragment
      * @param personId The person to get all the data
      */
-    @Query("SELECT * FROM blood_pressure_database WHERE person_id = :personId ORDER BY id DESC LIMIT (SELECT COUNT(id) FROM blood_pressure_database WHERE person_id = :personId) - 1")
+    @Query("SELECT * FROM blood_pressure_database WHERE person_id = :personId AND isShown = 1 ORDER BY id DESC")
     fun getAllForPerson(personId: String): LiveData<List<BloodPressure>>
 
     /**
