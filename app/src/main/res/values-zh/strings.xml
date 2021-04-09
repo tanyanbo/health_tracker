@@ -45,4 +45,7 @@
     <string name="weight">体重</string>
     <string name="height">身高</string>
     <string name="person_changed_snackbar_message">现在可以查看“%1$s”的数据</string>
+    <string name="before_after_food">餐前/餐后</string>
+    <string name="before_food">餐前</string>
+    <string name="after_food">餐后</string>
 </resources>

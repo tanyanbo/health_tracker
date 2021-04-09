@@ -45,4 +45,7 @@
     <string name="weight">Weight</string>
     <string name="height">Height</string>
     <string name="person_changed_snackbar_message">Person changed to "%1$s"</string>
+    <string name="before_after_food">Before/After Food</string>
+    <string name="before_food">Before</string>
+    <string name="after_food">After</string>
 </resources>

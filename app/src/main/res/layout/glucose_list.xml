@@ -14,7 +14,7 @@
         android:textColor="@color/black"
         android:textSize="24sp"
         android:textAlignment="center"
-        app:layout_constraintEnd_toStartOf="@+id/imgDelete"
+        app:layout_constraintEnd_toStartOf="@+id/tvFood"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/tvDt"
         app:layout_constraintTop_toTopOf="parent"
@@ -41,6 +41,19 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tvDt"
         tools:text="20:00" />
+
+    <TextView
+        android:id="@+id/tvFood"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toEndOf="@id/tvG"
+        app:layout_constraintEnd_toStartOf="@id/imgDelete"
+        android:layout_marginTop="24dp"
+        android:textColor="@color/black"
+        android:textSize="24sp"
+        android:textAlignment="center"
+        tools:text="Before"/>
 
     <ImageView
         android:id="@+id/imgDelete"

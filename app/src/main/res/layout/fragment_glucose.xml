@@ -26,11 +26,24 @@
             android:text="@string/blood_glucose"
             android:textAlignment="center"
             android:textSize="16sp"
-            app:layout_constraintEnd_toStartOf="@+id/tvPlaceholder"
+            app:layout_constraintEnd_toStartOf="@+id/tvBeforeAfterFood"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/tvDate"
             app:layout_constraintTop_toTopOf="parent" />
 
+
+        <TextView
+            android:id="@+id/tvBeforeAfterFood"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:text="@string/before_after_food"
+            android:textSize="16sp"
+            android:paddingTop="0dp"
+            android:textAlignment="center"
+            app:layout_constraintEnd_toStartOf="@id/tvPlaceholder"
+            app:layout_constraintStart_toEndOf="@id/tvGlucose"
+            app:layout_constraintTop_toTopOf="parent"
+/>
 
         <TextView
             android:id="@+id/tvPlaceholder"
