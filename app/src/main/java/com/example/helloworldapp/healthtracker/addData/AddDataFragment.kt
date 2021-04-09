@@ -82,9 +82,9 @@ class AddDataFragment : Fragment(), DatePickerDialog.OnDateSetListener,
         heightWeightDataSource =
             HeightWeightDatabase.getInstance(requireActivity().application).heightWeightDatabaseDao
 
-        lifecycleScope.launch(Dispatchers.IO) {
-            chosenPersonId = bloodPressureDataSource.getFirstPersonId()
-        }
+//        lifecycleScope.launch(Dispatchers.IO) {
+//            chosenPersonId = bloodPressureDataSource.getFirstPersonId()
+//        }
 
 
 //        Log.i(TAG, "right after set ischecked: ${binding.customTimeSwitch.isChecked}")
@@ -116,6 +116,7 @@ class AddDataFragment : Fragment(), DatePickerDialog.OnDateSetListener,
 
         viewModel.currentSelectedPersonId.observe(viewLifecycleOwner, Observer {
             chosenPersonId = it
+            Log.i("AddDataFragment", "current chosenPersonId: $chosenPersonId")
         })
 
         /**
@@ -225,6 +226,7 @@ class AddDataFragment : Fragment(), DatePickerDialog.OnDateSetListener,
      * Saves the data into the database and navigates back to the Height weight fragment
      */
     private fun onSaveButtonClickedHeightWeight() {
+
         val dataToBeSaved = HeightWeight(
             personId = chosenPersonId,
             height = binding.etBox1.text.toString(),
@@ -260,6 +262,7 @@ class AddDataFragment : Fragment(), DatePickerDialog.OnDateSetListener,
      * Saves the data into the database and navigates back to the Glucose fragment
      */
     private fun onSaveButtonClickedGlucose() {
+        Log.i("AddDataFragment", "current chosenPersonId in button click listener: $chosenPersonId")
         val dataToBeSaved = Glucose(
             personId = chosenPersonId,
             glucose = binding.etBox1.text.toString()
