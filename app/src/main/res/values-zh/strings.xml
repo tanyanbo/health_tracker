@@ -41,6 +41,8 @@
     <string name="height_amp_weight">身高体重</string>
     <string name="blood_glucose">血糖</string>
     <string name="change_person">换人</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="weight">体重</string>
     <string name="height">身高</string>
+    <string name="person_changed_snackbar_message">现在可以查看“%1$s”的数据</string>
 </resources>

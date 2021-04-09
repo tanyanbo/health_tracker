@@ -12,6 +12,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.helloworldapp.healthtracker.R
 import com.example.helloworldapp.healthtracker.bloodPressure.BloodPressureFragment
+import com.example.helloworldapp.healthtracker.choosePerson.ChoosePersonFragment
 import com.example.helloworldapp.healthtracker.database.bloodPressure.BloodPressure
 import com.example.helloworldapp.healthtracker.database.bloodPressure.BloodPressureDatabase
 import com.example.helloworldapp.healthtracker.database.bloodPressure.BloodPressureDatabaseDao
@@ -84,7 +85,7 @@ class AddPersonFragment : Fragment() {
                 deferred3.await()
             }
             parentFragmentManager.beginTransaction().apply {
-                replace(R.id.frameLayout, BloodPressureFragment())
+                replace(R.id.frameLayout, ChoosePersonFragment())
                 addToBackStack(null)
                 commit()
             }

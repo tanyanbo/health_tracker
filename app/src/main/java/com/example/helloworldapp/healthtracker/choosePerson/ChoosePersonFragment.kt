@@ -14,6 +14,7 @@ import androidx.lifecycle.lifecycleScope
 import com.example.helloworldapp.healthtracker.R
 import com.example.helloworldapp.healthtracker.databinding.FragmentChoosePersonBinding
 import com.example.helloworldapp.healthtracker.viewModel.ViewModel
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -73,6 +74,11 @@ class ChoosePersonFragment : Fragment() {
 
         binding.buttonGoToData.setOnClickListener {
             viewModel.changeCurrentSelectedPerson(chosenPersonId)
+            Snackbar.make(
+                binding.constraintLayout,
+                getString(R.string.person_changed_snackbar_message, "$chosenPersonId"),
+                Snackbar.LENGTH_LONG
+            ).show()
         }
 
         return binding.root
