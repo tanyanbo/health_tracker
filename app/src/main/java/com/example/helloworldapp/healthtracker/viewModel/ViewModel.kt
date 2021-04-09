@@ -7,6 +7,10 @@ import androidx.lifecycle.ViewModel
 import com.example.helloworldapp.healthtracker.R
 import com.example.helloworldapp.healthtracker.database.bloodPressure.BloodPressure
 import com.example.helloworldapp.healthtracker.database.bloodPressure.BloodPressureDatabase
+import com.example.helloworldapp.healthtracker.database.glucose.Glucose
+import com.example.helloworldapp.healthtracker.database.glucose.GlucoseDatabase
+import com.example.helloworldapp.healthtracker.database.heightWeight.HeightWeight
+import com.example.helloworldapp.healthtracker.database.heightWeight.HeightWeightDatabase
 import kotlinx.coroutines.*
 import java.lang.NullPointerException
 
@@ -19,6 +23,9 @@ class ViewModel(application: Application) : AndroidViewModel(application) {
 
     private val bloodPressureDataSource =
         BloodPressureDatabase.getInstance(application).bloodPressureDatabaseDao
+    private val glucoseDataSource = GlucoseDatabase.getInstance(application).glucoseDatabaseDao
+    private val heightWeightDataSource =
+        HeightWeightDatabase.getInstance(application).heightWeightDatabaseDao
 
     // The person list to show in the pick person spinner
     private lateinit var _personList: LiveData<List<String>>
@@ -55,7 +62,11 @@ class ViewModel(application: Application) : AndroidViewModel(application) {
 
     lateinit var job: Job
     lateinit var job2: Job
+    lateinit var job3: Job
+    lateinit var job4: Job
     lateinit var bloodPressureAllDataOnePerson: LiveData<List<BloodPressure>>
+    lateinit var glucoseAllDataOnePerson: LiveData<List<Glucose>>
+    lateinit var heightWeightAllDataOnePerson: LiveData<List<HeightWeight>>
 
     /**
      * Initializes the current selected person's Id to the first row of the
@@ -79,6 +90,20 @@ class ViewModel(application: Application) : AndroidViewModel(application) {
             }
         }
 
+    }
+
+    fun setGlucoseData() {
+        job3 = viewModelScope.launch(Dispatchers.IO) {
+            glucoseAllDataOnePerson =
+                glucoseDataSource.getAllForPerson(_currentSelectedPersonId.value!!)
+        }
+    }
+
+    fun setHeightWeightData() {
+        job4 = viewModelScope.launch(Dispatchers.IO) {
+            heightWeightAllDataOnePerson =
+                heightWeightDataSource.getAllForPerson(_currentSelectedPersonId.value!!)
+        }
     }
 
     /**
