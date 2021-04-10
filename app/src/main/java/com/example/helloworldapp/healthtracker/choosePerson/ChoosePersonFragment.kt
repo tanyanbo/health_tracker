@@ -11,6 +11,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.example.helloworldapp.healthtracker.R
+import com.example.helloworldapp.healthtracker.bloodPressure.BloodPressureFragment
 import com.example.helloworldapp.healthtracker.databinding.FragmentChoosePersonBinding
 import com.example.helloworldapp.healthtracker.viewModel.ViewModel
 import com.google.android.material.snackbar.Snackbar
@@ -81,6 +82,13 @@ class ChoosePersonFragment : Fragment() {
                 getString(R.string.person_changed_snackbar_message, "$chosenPersonId"),
                 Toast.LENGTH_LONG
             ).show()
+
+            parentFragmentManager.beginTransaction().apply {
+                setCustomAnimations(R.anim.translate_enter, R.anim.translate_exit)
+                replace(R.id.frameLayout, BloodPressureFragment())
+                addToBackStack(null)
+                commit()
+            }
         }
 
         setHasOptionsMenu(true)
