@@ -66,6 +66,21 @@ class ViewModel(application: Application) : AndroidViewModel(application) {
     val changeNavBarSelected: LiveData<Boolean>
         get() = _changeNavBarSelected
 
+    // This variable holds whether or not the title should be set to the app name
+    // It should be set to the app name after a person is deleted so that the user
+    // will not be confused as to whose data is on screen right now
+    private val _titleToAppName = MutableLiveData<Boolean>()
+    val titleToAppName: LiveData<Boolean>
+        get() = _titleToAppName
+
+    fun setTitleToAppName() {
+        _titleToAppName.value = true
+    }
+
+    fun doneSetTitleToAppName() {
+        _titleToAppName.value = false
+    }
+
     fun changeNavBarSelectedFunction() {
         _changeNavBarSelected.value = true
     }

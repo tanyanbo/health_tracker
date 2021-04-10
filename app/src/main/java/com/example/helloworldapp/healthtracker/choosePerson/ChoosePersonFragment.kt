@@ -27,6 +27,7 @@ class ChoosePersonFragment : Fragment() {
     private lateinit var binding: FragmentChoosePersonBinding
     private lateinit var chosenPersonId: String
     private lateinit var adapter: ArrayAdapter<String>
+    private lateinit var viewModel: ViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -36,7 +37,7 @@ class ChoosePersonFragment : Fragment() {
             DataBindingUtil.inflate(inflater, R.layout.fragment_choose_person, container, false)
 
         val viewModelFactory = ViewModel.Factory(requireActivity().application)
-        val viewModel =
+        viewModel =
             ViewModelProvider(requireActivity(), viewModelFactory).get(ViewModel::class.java)
 
 
@@ -120,7 +121,7 @@ class ChoosePersonFragment : Fragment() {
     }
 
     private fun openDeletePersonDialog() {
-        DeleteOnePerson(getString(R.string.delete_person, chosenPersonId), chosenPersonId).show(parentFragmentManager, "dialog")
+        DeleteOnePerson(getString(R.string.delete_person, chosenPersonId), chosenPersonId, viewModel, requireActivity()).show(parentFragmentManager, "dialog")
     }
 }
 

@@ -1,14 +1,21 @@
 package com.example.helloworldapp.healthtracker.dialogs
 
+import android.app.Activity
 import android.app.AlertDialog
+import android.app.Application
 import android.app.Dialog
 import android.content.DialogInterface
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatDialogFragment
+import androidx.fragment.app.FragmentActivity
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import com.example.helloworldapp.healthtracker.R
 import com.example.helloworldapp.healthtracker.database.bloodPressure.BloodPressureDatabase
 import com.example.helloworldapp.healthtracker.database.glucose.GlucoseDatabase
 import com.example.helloworldapp.healthtracker.database.heightWeight.HeightWeightDatabase
+import com.example.helloworldapp.healthtracker.viewModel.ViewModel
 import kotlinx.coroutines.*
 
 
@@ -17,7 +24,7 @@ import kotlinx.coroutines.*
  * @param deleteMessageStringResource The string resource of the message to show
  * @param personId The person_id of the person to delete
  */
-class DeleteOnePerson(private val deleteMessageString: String, val personId: String): AppCompatDialogFragment() {
+class DeleteOnePerson(private val deleteMessageString: String, val personId: String, val viewModel: ViewModel, val activity: Activity): AppCompatDialogFragment() {
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val builder = AlertDialog.Builder(requireActivity())
@@ -45,6 +52,7 @@ class DeleteOnePerson(private val deleteMessageString: String, val personId: Str
                 datasourceGlucose.deletePerson(personId)
             }
         }
-        requireActivity().title = getString(R.string.app_name)
+        activity.title = getString(R.string.app_name)
+        viewModel.initializeCurrentSelectedPersonId()
     }
 }
