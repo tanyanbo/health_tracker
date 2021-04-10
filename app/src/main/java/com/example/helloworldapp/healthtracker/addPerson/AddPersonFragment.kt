@@ -90,6 +90,8 @@ class AddPersonFragment : Fragment() {
                 addToBackStack(null)
                 commit()
             }
+
+            binding.etName.text.clear()
         }
         return binding.root
     }

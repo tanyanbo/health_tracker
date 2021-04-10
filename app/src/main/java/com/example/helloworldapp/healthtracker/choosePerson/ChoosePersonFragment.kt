@@ -13,6 +13,8 @@ import androidx.lifecycle.lifecycleScope
 import com.example.helloworldapp.healthtracker.R
 import com.example.helloworldapp.healthtracker.bloodPressure.BloodPressureFragment
 import com.example.helloworldapp.healthtracker.databinding.FragmentChoosePersonBinding
+import com.example.helloworldapp.healthtracker.dialogs.DeleteAllBloodPressure
+import com.example.helloworldapp.healthtracker.dialogs.DeleteOnePerson
 import com.example.helloworldapp.healthtracker.viewModel.ViewModel
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.Dispatchers
@@ -111,9 +113,14 @@ class ChoosePersonFragment : Fragment() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == R.id.deleteAllPeople) {
+            openDeletePersonDialog()
 
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    private fun openDeletePersonDialog() {
+        DeleteOnePerson(getString(R.string.delete_person, chosenPersonId), chosenPersonId).show(parentFragmentManager, "dialog")
     }
 }
 

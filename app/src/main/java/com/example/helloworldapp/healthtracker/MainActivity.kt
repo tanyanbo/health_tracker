@@ -105,12 +105,27 @@ class MainActivity : AppCompatActivity() {
                 viewModel.deferredPersonList.await()
             }
 
+            /**
+             * Whenever the personList is empty (either because the user delete
+             * every person in the database or through the database insepector
+             * in android studio), this observer will get notified and the app will
+             * navigate to the add person fragment
+             */
             viewModel.personList.observe(this@MainActivity, Observer {
                 // checks to see if there is data in the database, if there isn't any data,
                 // then navigate to the add person screen
                 if (it.isNullOrEmpty()) {
-                    navigateToFragment(addPersonFragment)
+                    for (i in 1..supportFragmentManager.backStackEntryCount) {
+                        supportFragmentManager.popBackStack()
+                    }
+                    supportFragmentManager.beginTransaction().apply {
+
+                        replace(R.id.frameLayout, AddPersonFragment())
+                        addToBackStack(null)
+                        commit()
+                    }
                     viewModel.changeAppBarVisibility(false)
+
                 }
             })
         }

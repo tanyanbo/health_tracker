@@ -17,12 +17,12 @@ import kotlinx.coroutines.*
  * @param deleteMessageStringResource The string resource of the message to show
  * @param personId The person_id of the person to delete
  */
-class DeleteOnePerson(private val deleteMessageStringResource: Int, val personId: String): AppCompatDialogFragment() {
+class DeleteOnePerson(private val deleteMessageString: String, val personId: String): AppCompatDialogFragment() {
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val builder = AlertDialog.Builder(requireActivity())
         builder.setTitle(R.string.delete_dialog_title)
-            .setMessage(deleteMessageStringResource)
+            .setMessage(deleteMessageString)
             .setPositiveButton(R.string.delete_dialog_positive_button) { _: DialogInterface, _: Int ->
                 confirm()
             }
@@ -45,5 +45,6 @@ class DeleteOnePerson(private val deleteMessageStringResource: Int, val personId
                 datasourceGlucose.deletePerson(personId)
             }
         }
+        requireActivity().title = getString(R.string.app_name)
     }
 }

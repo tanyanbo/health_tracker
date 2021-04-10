@@ -17,7 +17,7 @@
     <string name="date">日期</string>
     <string name="time">时间</string>
     <string name="delete_all">清除全部记录</string>
-    <string name="delete_dialog_title">清除所有数据</string>
+    <string name="delete_dialog_title">删除</string>
     <string name="delete_dialog_message">确定删除此人的所有数据？</string>
     <string name="delete_dialog_message_one_row">确定删除?</string>
     <string name="delete_dialog_positive_button">确定</string>
