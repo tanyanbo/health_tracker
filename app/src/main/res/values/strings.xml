@@ -52,4 +52,6 @@
     <string name="delete_person">Are you sure you want to delete "%1$s"?</string>
     <string name="after_food_checkbox_message">After food</string>
     <string name="title">Viewing "%1$s\'s" data</string>
+    <string name="legend_high">High</string>
+    <string name="legend_normal">Normal</string>
 </resources>
