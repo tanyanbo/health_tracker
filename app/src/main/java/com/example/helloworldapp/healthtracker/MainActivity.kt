@@ -193,18 +193,26 @@ class MainActivity : AppCompatActivity() {
             when (it.itemId) {
                 R.id.glucose -> {
                     navigateToFragment(glucoseFragment)
+                    binding.tvNormal.visibility = View.VISIBLE
+                    binding.tvHigh.visibility = View.VISIBLE
                     viewModel.updatePreviousFragment(it.itemId)
                 }
                 R.id.bloodPressure -> {
                     navigateToFragment(bloodPressureFragment)
+                    binding.tvNormal.visibility = View.VISIBLE
+                    binding.tvHigh.visibility = View.VISIBLE
                     viewModel.updatePreviousFragment(it.itemId)
                 }
                 R.id.heightWeight -> {
                     navigateToFragment(heightWeightFragment)
+                    binding.tvNormal.visibility = View.VISIBLE
+                    binding.tvHigh.visibility = View.VISIBLE
                     viewModel.updatePreviousFragment(it.itemId)
                 }
                 R.id.person -> {
                     navigateToFragment(choosePersonFragment)
+                    binding.tvNormal.visibility = View.INVISIBLE
+                    binding.tvHigh.visibility = View.INVISIBLE
                     viewModel.updatePreviousFragment(it.itemId)
                 }
             }
