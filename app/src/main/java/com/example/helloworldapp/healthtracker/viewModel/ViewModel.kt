@@ -58,6 +58,22 @@ class ViewModel(application: Application) : AndroidViewModel(application) {
     val navigateToBloodPressure: LiveData<Boolean>
         get() = _navigateToBloodPressure
 
+    // This variable holds whether or not to change the bottom navigation bar selected
+    // id to the blood pressure fragment. This is used to by the choose person fragment
+    // to tell the main activity to change the selected id from change person to blood
+    // pressure
+    private val _changeNavBarSelected = MutableLiveData<Boolean>()
+    val changeNavBarSelected: LiveData<Boolean>
+        get() = _changeNavBarSelected
+
+    fun changeNavBarSelectedFunction() {
+        _changeNavBarSelected.value = true
+    }
+
+    fun doneChangeNavBarSelected() {
+        _changeNavBarSelected.value = false
+    }
+
     lateinit var glucoseAllDataDesc: LiveData<List<Glucose>>
     lateinit var glucoseAllDataAsc: LiveData<List<Glucose>>
 

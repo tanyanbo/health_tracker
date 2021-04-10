@@ -72,7 +72,7 @@ class GlucoseRecyclerViewAdapter(val listener: OnItemClickListener) :
             date.text = item.date
             time.text = SimpleDateFormat("HH:mm:ss").format(item.time)
 
-            // set various texts to red if it is higher than a certain value
+            // set glucose to red if it is higher than 10 before food or higher than 13 after food
             if (!item.glucose.isNullOrEmpty()) {
                 if ((item.beforeAfterFood == itemView.context.getString(
                         R.string.before_food

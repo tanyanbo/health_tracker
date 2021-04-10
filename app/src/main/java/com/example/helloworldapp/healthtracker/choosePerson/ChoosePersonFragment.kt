@@ -74,6 +74,10 @@ class ChoosePersonFragment : Fragment() {
 
         }
 
+        /**
+         * Shows a toast message saying changed to xx person, changes the current selected person
+         * and changes the screen to show the blood pressure fragment
+         */
         binding.buttonGoToData.setOnClickListener {
             viewModel.changeCurrentSelectedPerson(chosenPersonId)
             requireActivity().title = getString(R.string.title, chosenPersonId)
@@ -82,6 +86,7 @@ class ChoosePersonFragment : Fragment() {
                 getString(R.string.person_changed_snackbar_message, "$chosenPersonId"),
                 Toast.LENGTH_LONG
             ).show()
+            viewModel.changeNavBarSelectedFunction()
 
             parentFragmentManager.beginTransaction().apply {
                 setCustomAnimations(R.anim.translate_enter, R.anim.translate_exit)
@@ -89,6 +94,9 @@ class ChoosePersonFragment : Fragment() {
                 addToBackStack(null)
                 commit()
             }
+
+
+
         }
 
         setHasOptionsMenu(true)

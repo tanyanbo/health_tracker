@@ -70,6 +70,16 @@ class HeightWeightRecyclerViewAdapter(val listener: OnItemClickListener) :
             weight.text = item.weight
             date.text = item.date
             time.text = SimpleDateFormat("HH:mm:ss").format(item.time)
+
+            // set weight to red if bmi is higher than 23
+            if (!item.height.isNullOrEmpty() && !item.weight.isNullOrEmpty()) {
+                val bmi = item.weight.toFloat() / ((item.height.toFloat() / 100) * (item.height.toFloat() / 100))
+                if (bmi > 23.0F) {
+                    weight.setTextColor(Color.RED)
+                } else {
+                    weight.setTextColor(Color.BLACK)
+                }
+            }
         }
     }
 

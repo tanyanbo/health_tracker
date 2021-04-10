@@ -19,6 +19,7 @@ import com.example.helloworldapp.healthtracker.databinding.ActivityMainBinding
 import com.example.helloworldapp.healthtracker.glucose.GlucoseFragment
 import com.example.helloworldapp.healthtracker.heightWeight.HeightWeightFragment
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
@@ -106,6 +107,15 @@ class MainActivity : AppCompatActivity() {
             binding.fab.visibility = if (it) View.VISIBLE else View.INVISIBLE
         })
 
+        viewModel.changeNavBarSelected.observe(this, Observer {
+            if (it) {
+                lifecycleScope.launch {
+                    delay(500)
+                    binding.bottomNavBar.selectedItemId = R.id.bloodPressure
+                    viewModel.doneChangeNavBarSelected()
+                }
+            }
+        })
 
         /**
          * Includes the animation logic for opening the add data fragment, if the user clicks on the fab
