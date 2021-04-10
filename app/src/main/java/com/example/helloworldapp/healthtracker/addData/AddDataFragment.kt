@@ -261,6 +261,7 @@ class AddDataFragment : Fragment(), DatePickerDialog.OnDateSetListener,
         }
 
         parentFragmentManager.beginTransaction().apply {
+            setCustomAnimations(R.anim.scale_enter_add_data, R.anim.scale_exit_add_data)
             replace(R.id.frameLayout, HeightWeightFragment())
             addToBackStack(null)
             commit()
@@ -310,6 +311,7 @@ class AddDataFragment : Fragment(), DatePickerDialog.OnDateSetListener,
             }
         }
         parentFragmentManager.beginTransaction().apply {
+            setCustomAnimations(R.anim.scale_enter_add_data, R.anim.scale_exit_add_data)
             replace(R.id.frameLayout, GlucoseFragment())
             addToBackStack(null)
             commit()
@@ -355,6 +357,7 @@ class AddDataFragment : Fragment(), DatePickerDialog.OnDateSetListener,
         }
 
         parentFragmentManager.beginTransaction().apply {
+            setCustomAnimations(R.anim.scale_enter_add_data, R.anim.scale_exit_add_data)
             replace(R.id.frameLayout, BloodPressureFragment())
             addToBackStack(null)
             commit()
