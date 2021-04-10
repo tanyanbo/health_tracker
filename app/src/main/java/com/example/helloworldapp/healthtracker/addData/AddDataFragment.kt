@@ -73,9 +73,6 @@ class AddDataFragment : Fragment(), DatePickerDialog.OnDateSetListener,
 
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_add_data, container, false)
 
-
-        binding.customTimeSwitch.isChecked = false
-
         bloodPressureDataSource =
             BloodPressureDatabase.getInstance(requireActivity().application).bloodPressureDatabaseDao
         glucoseDataSource =
@@ -129,11 +126,13 @@ class AddDataFragment : Fragment(), DatePickerDialog.OnDateSetListener,
         viewModel.previousFragment.observe(viewLifecycleOwner, Observer {
             when (it) {
                 1 -> {
+                    binding.tvTypeToAdd.text = getString(R.string.blood_pressure_type)
                     binding.buttonSaveData.setOnClickListener {
                         onSaveButtonClickedBloodPressure()
                     }
                 }
                 2 -> {
+                    binding.tvTypeToAdd.text = getString(R.string.height_weight_type)
                     binding.etBox1.hint = getString(R.string.enter_height)
                     binding.etBox2.hint = getString(R.string.enter_weight)
                     binding.etBox3.visibility = View.GONE
@@ -142,6 +141,7 @@ class AddDataFragment : Fragment(), DatePickerDialog.OnDateSetListener,
                     }
                 }
                 3 -> {
+                    binding.tvTypeToAdd.text = getString(R.string.glucose_type)
                     binding.etBox1.hint = getString(R.string.enter_glucose)
                     binding.etBox2.visibility = View.GONE
                     binding.etBox3.visibility = View.GONE
@@ -265,6 +265,12 @@ class AddDataFragment : Fragment(), DatePickerDialog.OnDateSetListener,
             addToBackStack(null)
             commit()
         }
+
+        binding.etBox1.text.clear()
+        binding.etBox2.text.clear()
+        binding.etBox3.text.clear()
+        binding.customTimeSwitch.isChecked = false
+
     }
 
     /**
@@ -308,6 +314,13 @@ class AddDataFragment : Fragment(), DatePickerDialog.OnDateSetListener,
             addToBackStack(null)
             commit()
         }
+
+        binding.etBox1.text.clear()
+        binding.etBox2.text.clear()
+        binding.etBox3.text.clear()
+        binding.customTimeSwitch.isChecked = false
+        binding.beforeFood.isChecked = false
+        binding.afterFood.isChecked = false
     }
 
     /**
@@ -346,6 +359,11 @@ class AddDataFragment : Fragment(), DatePickerDialog.OnDateSetListener,
             addToBackStack(null)
             commit()
         }
+
+        binding.etBox1.text.clear()
+        binding.etBox2.text.clear()
+        binding.etBox3.text.clear()
+        binding.customTimeSwitch.isChecked = false
     }
 
 

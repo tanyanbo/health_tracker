@@ -9,6 +9,20 @@
         android:layout_height="match_parent"
         tools:context=".addData.AddDataFragment">
 
+        <TextView
+            android:id="@+id/tvTypeToAdd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="30sp"
+            android:textColor="@color/purple_500"
+            tools:text="testing"
+            tools:textColor="@color/purple_500"
+            android:textStyle="bold"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="10dp"/>
+
         <EditText
             android:id="@+id/etBox1"
             android:layout_width="250dp"
@@ -23,7 +37,7 @@
             app:layout_constraintHorizontal_bias="0.503"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.18" />
+            app:layout_constraintVertical_bias="0.22" />
 
         <EditText
             android:id="@+id/etBox2"

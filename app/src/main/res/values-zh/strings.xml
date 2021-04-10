@@ -54,4 +54,7 @@
     <string name="title">正在查看“%1$s”的数据</string>
     <string name="legend_high">偏高</string>
     <string name="legend_normal">正常</string>
+    <string name="blood_pressure_type">血压</string>
+    <string name="glucose_type">血糖</string>
+    <string name="height_weight_type">身高体重</string>
 </resources>
