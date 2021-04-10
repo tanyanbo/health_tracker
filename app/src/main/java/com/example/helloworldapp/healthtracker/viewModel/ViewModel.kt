@@ -152,6 +152,12 @@ class ViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
+    /**
+     * If bloodPressureAllDataOnePerson is not null then we will get all the data
+     * for the currentSelectedPerson and show his data on the screen, however if
+     * it is null then we will tell the main activity to navigate to the
+     * add person fragment
+     */
     fun setAllData() {
 
         job2 = viewModelScope.launch(Dispatchers.IO) {
@@ -168,6 +174,9 @@ class ViewModel(application: Application) : AndroidViewModel(application) {
 
     }
 
+    /**
+     * Gets all the glucose data for one person so the fragment can show it
+     */
     fun setGlucoseData() {
         job3 = viewModelScope.launch(Dispatchers.IO) {
             glucoseAllDataOnePerson =
@@ -175,6 +184,9 @@ class ViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
+    /**
+     * Gets all the height and weight data for one person so the fragment can show it
+     */
     fun setHeightWeightData() {
         job4 = viewModelScope.launch(Dispatchers.IO) {
             heightWeightAllDataOnePerson =

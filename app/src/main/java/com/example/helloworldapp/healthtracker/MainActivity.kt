@@ -58,6 +58,10 @@ class MainActivity : AppCompatActivity() {
             viewModelFactory
         ).get(com.example.helloworldapp.healthtracker.viewModel.ViewModel::class.java)
 
+        /**
+         * This will receive information from the view model if it needs to navigate to the
+         * add person fragment
+         */
         viewModel.navigateToAddPerson.observe(this, Observer {
             Log.i(TAG, "navigateToAddPerson live data executed: $it")
             if (it == true) {
@@ -67,8 +71,17 @@ class MainActivity : AppCompatActivity() {
             }
         })
 
+        /**
+         * Initializes the previous fragment value to 1. This is just so that it is not null
+         */
         viewModel.initializePreviousFragment()
 
+        /**
+         * Initialize the current selected person. Only after the current selected person is initialized
+         * can viewModel.setAllData() be called, because it needs the current selected person as a parameter.
+         * Current selected person could be null if there is no data in the database which is why we will
+         * navigate to the add person fragment
+         */
         lifecycleScope.launch {
             viewModel.initializeCurrentSelectedPersonId()
             viewModel.job.join()
@@ -102,11 +115,21 @@ class MainActivity : AppCompatActivity() {
             })
         }
 
+        /**
+         * Sets the visibility of the app bar and legend
+         */
         viewModel.bottomAppBarIsVisible.observe(this, Observer {
             binding.bottomAppBar.visibility = if (it) View.VISIBLE else View.INVISIBLE
             binding.fab.visibility = if (it) View.VISIBLE else View.INVISIBLE
+            binding.tvHigh.visibility = if (it) View.VISIBLE else View.INVISIBLE
+            binding.tvNormal.visibility = if (it) View.VISIBLE else View.INVISIBLE
         })
 
+        /**
+         * After the user navigates from the choose person fragment to the blood pressure
+         * fragment, the nav bar selected item will change to blood pressure. The delay
+         * is to wait for the transition animation to finish
+         */
         viewModel.changeNavBarSelected.observe(this, Observer {
             if (it) {
                 lifecycleScope.launch {
