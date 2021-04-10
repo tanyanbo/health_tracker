@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Health Tracker</string>
+    <string name="app_name">Health Diary</string>
     <string name="enter_high_blood_pressure">Enter High Blood Pressure</string>
     <string name="enter_low_blood_pressure">Enter Low Blood Pressure</string>
     <string name="enter_glucose">Enter Glucose</string>

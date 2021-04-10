@@ -50,8 +50,6 @@ class MainActivity : AppCompatActivity() {
         choosePersonFragment = ChoosePersonFragment()
 
 
-
-
         val viewModelFactory =
             com.example.helloworldapp.healthtracker.viewModel.ViewModel.Factory(this.application)
         val viewModel = ViewModelProvider(
@@ -78,7 +76,12 @@ class MainActivity : AppCompatActivity() {
             viewModel.setAllData()
             viewModel.job2.join()
             Log.i(TAG, "job 2 done")
-            navigateToFragment(bloodPressureFragment)
+            viewModel.navigateToBloodPressure.observe(this@MainActivity, Observer {
+                if (it) {
+
+                    navigateToFragment(bloodPressureFragment)
+                }
+            })
         }
 
 

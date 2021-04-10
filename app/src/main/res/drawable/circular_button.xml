@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<!--    <item>-->
+<!--        <rotate-->
+<!--            android:fromDegrees="45"-->
+<!--            android:pivotX="13%"-->
+<!--            android:pivotY="-40%"-->
+<!--            android:toDegrees="45">-->
+<!--            <shape android:shape="rectangle">-->
+<!--                <stroke-->
+<!--                    android:width="10dp"-->
+<!--                    android:color="@android:color/transparent" />-->
+<!--                <solid android:color="@color/black" />-->
+<!--            </shape>-->
+<!--        </rotate>-->
+<!--    </item>-->
+<!--    <item>-->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:innerRadius="20dp"
+    android:shape="oval">
+
+    <solid android:color="@color/flesh"/>
+    <gradient android:angle="0" android:startColor="#0C7042" android:endColor="#186BB5" android:type="linear"/>
+
+<!--    <stroke-->
+<!--        android:width="1dp"-->
+<!--        android:color="@color/flesh" />-->
+
+    <size
+        android:width="50dp"
+        android:height="50dp" />
+
+</shape>
+<!--    </item>-->
+
+
+

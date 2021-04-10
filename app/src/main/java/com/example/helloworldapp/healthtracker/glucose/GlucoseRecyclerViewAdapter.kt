@@ -73,13 +73,18 @@ class GlucoseRecyclerViewAdapter(val listener: OnItemClickListener) :
             time.text = SimpleDateFormat("HH:mm:ss").format(item.time)
 
             // set various texts to red if it is higher than a certain value
-//            if (!item.highBP.isNullOrEmpty()) {
-//                if (item.highBP.toInt() > 140) {
-//                    highBP.setTextColor(Color.RED)
-//                } else {
-//                    highBP.setTextColor(Color.BLACK)
-//                }
-//            }
+            if (!item.glucose.isNullOrEmpty()) {
+                if ((item.beforeAfterFood == itemView.context.getString(
+                        R.string.before_food
+                    ) && item.glucose.toFloat() > 10) || (item.beforeAfterFood == itemView.context.getString(
+                        R.string.after_food
+                    ) && item.glucose.toFloat() > 13)
+                ) {
+                    glucose.setTextColor(Color.RED)
+                } else {
+                    glucose.setTextColor(Color.BLACK)
+                }
+            }
         }
     }
 

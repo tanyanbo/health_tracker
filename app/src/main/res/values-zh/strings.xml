@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">健康追踪仪</string>
+    <string name="app_name">健康日记</string>
     <string name="enter_high_blood_pressure">输入高压</string>
     <string name="enter_low_blood_pressure">输入低压</string>
     <string name="enter_heart_rate">输入心率</string>

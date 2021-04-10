@@ -51,6 +51,13 @@ class ViewModel(application: Application) : AndroidViewModel(application) {
     val navigateToAddPerson: LiveData<Boolean>
         get() = _navigateToAddPerson
 
+
+    // The variable that holds whether or not to navigate to the blood pressure fragment
+    // when the app starts
+    private val _navigateToBloodPressure = MutableLiveData<Boolean>()
+    val navigateToBloodPressure: LiveData<Boolean>
+        get() = _navigateToBloodPressure
+
     lateinit var glucoseAllDataDesc: LiveData<List<Glucose>>
     lateinit var glucoseAllDataAsc: LiveData<List<Glucose>>
 
@@ -135,8 +142,10 @@ class ViewModel(application: Application) : AndroidViewModel(application) {
             try {
                 bloodPressureAllDataOnePerson =
                     bloodPressureDataSource.getAllForPerson(_currentSelectedPersonId.value!!)
+                _navigateToBloodPressure.postValue(true)
             } catch (e: NullPointerException) {
                 _navigateToAddPerson.postValue(true)
+                _navigateToBloodPressure.postValue(false)
                 Log.i("MainActivity", "catch null pointer exception block executed")
             }
         }

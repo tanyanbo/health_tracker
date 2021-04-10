@@ -33,15 +33,20 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.298" />
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/buttonGoToData"
             android:layout_marginTop="101dp"
-            android:text="@string/go_to_data"
-            style="@style/ButtonStyle"
+            android:text=""
+            android:background="@drawable/circular_button"
             app:layout_constraintEnd_toEndOf="@id/person_spinner"
             app:layout_constraintStart_toStartOf="@id/person_spinner"
             app:layout_constraintTop_toBottomOf="@+id/person_spinner"
-            app:backgroundTint="@null"/>
+            app:backgroundTint="@null"
+            app:icon="@drawable/ic_baseline_arrow_forward_24"
+            app:iconGravity="textEnd"
+            app:iconSize="80dp"
+            android:layout_height="100dp"
+            android:layout_width="100dp"/>
 
 <!--        <Button-->
 <!--            android:id="@+id/buttonAddPerson"-->
