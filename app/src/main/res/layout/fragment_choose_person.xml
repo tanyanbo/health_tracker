@@ -11,7 +11,7 @@
         tools:context=".choosePerson.ChoosePersonFragment">
 
         <ImageView
-            android:id="@+id/imgProfilePicture"
+            android:id="@+id/imgHeart"
             android:layout_width="200dp"
             android:layout_height="100dp"
             android:layout_marginBottom="30dp"
