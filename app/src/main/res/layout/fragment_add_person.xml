@@ -11,14 +11,15 @@
 
         <Button
             android:id="@+id/buttonSavePerson"
-            android:text="@string/save_person"
             style="@style/ButtonStyle"
+            android:text="@string/save_person"
             app:backgroundTint="@null"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.496"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.473" />
+            app:layout_constraintVertical_bias="0.596" />
 
         <EditText
             android:id="@+id/etName"
@@ -38,13 +39,13 @@
 
         <ImageView
             android:id="@+id/imgHeart"
-            android:layout_width="200dp"
-            android:layout_height="100dp"
+            android:layout_width="150dp"
+            android:layout_height="171dp"
             android:layout_marginBottom="130dp"
             app:layout_constraintBottom_toTopOf="@id/buttonSavePerson"
             app:layout_constraintEnd_toEndOf="@id/buttonSavePerson"
             app:layout_constraintStart_toStartOf="@id/buttonSavePerson"
-            app:srcCompat="@drawable/heart_line" />
+            app:srcCompat="@drawable/ic_generic_avatar" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
